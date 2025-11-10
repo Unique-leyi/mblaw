@@ -1,0 +1,148 @@
+import {
+  LayoutDashboard,
+  BriefcaseBusiness,
+  UsersRound,
+  Settings,
+  NotepadText,
+  ChartColumnIncreasing,
+  Calendar,
+  CheckCircle,
+  User,
+  Clock,
+  Star,
+  Video,
+} from "lucide-react";
+import { HiOutlineLogout } from "react-icons/hi";
+import { SlBell } from "react-icons/sl";
+
+export const SidebarData = [
+  {
+    title: "Dashboard",
+    icon: <LayoutDashboard size={25} />,
+    link: "/dashboard",
+    id: "",
+    roles: ["admin", "coach", "patient"],
+  },
+  {
+    title: "Coaches",
+    icon: <BriefcaseBusiness size={25} />,
+    link: "/dashboard/coaches",
+    id: "coaches",
+    roles: ["admin"],
+  },
+  {
+    title: "Upcoming Sessions",
+    icon: <Calendar size={25} />,
+    link: "/dashboard/upcoming-sessions",
+    id: "upcoming-sessions",
+    roles: ["patient"],
+  },
+  {
+    title: "Recommendations",
+    icon: <CheckCircle size={25} />,
+    link: "/dashboard/recommendations",
+    id: "recommendations",
+    roles: ["patient"],
+  },
+  {
+    title: "Session History",
+    icon: <Clock size={25} />,
+    link: "/dashboard/session-history",
+    id: "session-history",
+    roles: ["patient"],
+  },
+  // {
+  //   title: "Feedback History",
+  //   icon: <Star size={25} />,
+  //   link: "/dashboard/feedback-history",
+  //   id: "feedback-history",
+  //   roles: ["patient"],
+  // },
+
+  {
+    title: "Assigned Coach",
+    icon: <UsersRound size={25} />,
+    link: "/dashboard/assigned-coach",
+    id: "assigned-coach",
+    roles: ["patient"],
+  },
+
+  // {
+  //   title: "Weekly Schedules",
+  //   icon: <BriefcaseBusiness size={25} />,
+  //   link: "/dashboard/weekly-schedules",
+  //   id: "weekly-schedules",
+  //   roles: ["coach"],
+  // },
+  {
+    title: "All Coaches",
+    icon: <UsersRound size={25} />,
+    link: "/dashboard/all-coaches",
+    id: "all-coaches",
+    roles: ["admin"],
+  },
+  {
+    title: "My Patients",
+    icon: <UsersRound size={25} />,
+    link: "/dashboard/patients",
+    id: "patients",
+    roles: ["coach"],
+  },
+  // {
+  //   title: "Coach Profile",
+  //   icon: <User size={25} />,
+  //   link: "/dashboard/coach/profile",
+  //   id: "coach-profile",
+  //   roles: ["coach"],
+  // },
+  // {
+  //   title: "Update Availability",
+  //   icon: <Clock size={25} />,
+  //   link: "/dashboard/coach/availability",
+  //   id: "update-availability",
+  //   roles: ["coach"],
+  // },
+  // {
+  //   title: "Submit Feedback",
+  //   icon: <Star size={25} />,
+  //   link: "/dashboard/patients/:patientId/feedback",
+  //   id: "submit-feedback",
+  //   roles: ["coach"],
+  // },
+  {
+    title: "Feedbacks",
+    icon: <Star size={25} />,
+    link: "/dashboard/feedbacks",
+    id: "feedbacks",
+    roles: ["coach"],
+  },
+  // {
+  //   title: "Patient Feedback Given",
+  //   icon: <Star size={25} />,
+  //   link: "/dashboard/patients/:patientId/feedback-given",
+  //   id: "patient-feedback-given",
+  //   roles: ["coach"],
+  // },
+
+  {
+    title: "Notifications",
+    icon: <SlBell size={25} />,
+    link: "/dashboard/notifications",
+    id: "notifications",
+    roles: ["admin", "coach", "patient"],
+  },
+  {
+    title: "Settings",
+    icon: <Settings size={25} />,
+    link: "/dashboard/settings",
+    id: "settings",
+    roles: ["admin", "coach", "patient"],
+  },
+  {
+    title: "Logout",
+    icon: <HiOutlineLogout size={25} />,
+    link: "/sign-in",
+    id: "sign-in",
+    roles: ["admin", "coach", "patient"],
+  },
+];
