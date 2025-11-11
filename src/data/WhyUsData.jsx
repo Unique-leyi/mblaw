@@ -1,35 +1,32 @@
 export const whyUsData = [
     {
-        title: "Wide Hospital Network",
-        content: "We partner with accredited hospitals nationwide to ensure you can access quality healthcare wherever you are.",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1754348123/Greenshield-HMO/7f3085017c94f3c1e1a15c03a5faa8634b1f7cea_o4zncc.jpg",
+        number: "/01",
+        title: "Client-Centered Approach",
+        description: "We prioritize your goals, ensuring every legal strategy is tailored to your unique needs and circumstances."
     },
-
     {
-        title: "Affordable Premiums",
-        content: "We partner with accredited hospitals across Nigeria to ensure you get quality care wherever you are.",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1754348119/Greenshield-HMO/f0ced8a2db95dcde1c16ce51cc5f1454065485e8_jqfok8.jpg",
+        number: "/02",
+        title: "Integrity at Every Step",
+        description: "Our practice is built on honesty, transparency, and ethical excellence in every client relationship."
     },
-
-
     {
-        title: "Tailored Plans",
-        content: "We offer flexible health plans for individuals, families, and businesses—designed to grow with your needs.",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1754348114/Greenshield-HMO/54dab5ba0b9397d8302e755625c892fc48cc3bbf_vzxaos.jpg",
+        number: "/03",
+        title: "Modern, Secure Legal Solutions",
+        description: "We leverage technology and Microsoft 365 systems to provide seamless, confidential, and efficient services."
     },
-
-
     {
-        title: "Trusted & Transparent",
-        content: "We’re committed to transparency, clearly explaining our plans and exclusions so you always know what to expect—earning the trust of thousands.",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1758633086/Greenshield-HMO/WhatsApp_Image_2025-09-23_at_2.06.34_PM_jjvopa.jpg",
+        number: "/04",
+        title: "Proven Expertise Across Practice Areas",
+        description: "From family to corporate and immigration law, our team brings depth, precision, and results-driven experience."
     },
-
-
     {
-        title: "Fast, Human Support",
-        content: "Healthcare can be stressful—getting help shouldn’t be. Our support team is available via WhatsApp, phone, or email to assist you quickly and personally.",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1758732035/Greenshield-HMO/2022-02-181986220_q6ot8o.png",
+        number: "/05",
+        title: "Clear Communication, Always",
+        description: "We keep clients informed at every stage, translating complex legal matters into clear, actionable guidance."
     },
-
+    {
+        number: "/06",
+        title: "Innovation That Drives Results",
+        description: "By combining legal expertise with forward-thinking digital tools, we redefine the modern client experience."
+    }
 ]

@@ -6,21 +6,21 @@ export const socialContacts = [
     {
         icon: FaWhatsapp,
         title: "WhatsApp",
-        content: "+234 808 452 8585",
+        content: "+44 XXX XXX XXXX",
         link: "",
     },
 
     {
         icon: SiGmail,
         title: "Email",
-        content: "info@greenshieldhmo.com",
+        content: "info@mblaw.co.uk",
         link: "",
     },
 
     {
         icon: IoPhonePortraitOutline,
         title: "Phone",
-        content: "+234 808 452 8585, +234 905 481 3632, +234 706 681 7352",
+        content: "+44 XXX XXX XXXX",
         link: "",
     },
 ]

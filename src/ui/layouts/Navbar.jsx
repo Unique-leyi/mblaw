@@ -32,12 +32,13 @@ import { TfiHeadphoneAlt } from "react-icons/tfi";
 import { IoMenu } from "react-icons/io5";
 import { Users } from "lucide-react";
 import AppLogo from "./AppLogo";
+import { RiAccountCircleFill } from "react-icons/ri";
 import CtaButton from "../CtaButton";
 
 
 
 
-function Navbar() {
+function Navbar({ isWhite = false }) {
 
 
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -66,18 +67,12 @@ function Navbar() {
             w="full"
             justify="start"
             align="start"
-            bgColor="rgba(255, 255, 255, 0.7)"
-            borderBottom="1px solid"
-            borderBottomColor="white"
             position="fixed"
+            bgColor={isWhite ? "transparent" : "#f9fafb"}
             top={0}
             left={0}
             zIndex={9999999999}
             py="12px"
-            sx={{
-                WebkitBackdropFilter: "blur(20px)",
-                backdropFilter: "blur(20px)",
-            }}
         >
             <ContainerLayout>    
                 <HStack
@@ -86,7 +81,7 @@ function Navbar() {
                     align="center"
                 >
                     <Box w="fit-content">
-                        <AppLogo/>
+                        <AppLogo isWhite={isWhite}/>
                     </Box>
 
 
@@ -98,7 +93,7 @@ function Navbar() {
                         gap="40px"
                     >
                         <HStack 
-                            gap="24px" 
+                            gap="40px" 
                             justify="center" 
                             align="center"
                             flex="1"
@@ -107,11 +102,11 @@ function Navbar() {
                                     <NavLink key={item.id} to={item.path}>
                                         <Text
                                             fontSize={20}
-                                            fontWeight={400}
-                                            color={item.id === id ? "brand.100" : "brand.500"}
-                                            lineHeight="100%"
+                                            fontWeight={300}
+                                            color={isWhite ? "white" : (item.id === id ? "brand.100" : "brand.200")}
+                                            lineHeight="24px"
                                             letterSpacing="0%"
-                                            _hover={{ color: "brand.100" }}
+                                            _hover={{ color: isWhite ? "white" : "brand.100" }}
                                         >
                                             {item.display}
                                         </Text>
@@ -123,9 +118,22 @@ function Navbar() {
                         <CtaButton
                             isLink={true}
                             btnText="Contact us"
-                            isOutline={false}
+                            isOutline={true}
                             url="/contact-us"
+                            borderColor={isWhite ? "white" : undefined}
+                            color={isWhite ? "white" : undefined}
                         />
+
+                        <Link to="/account/login">
+                            <IconButton
+                                aria-label="Search database"
+                                color={isWhite ? "white" : "brand.100"}
+                                bgColor="transparent"
+                                icon={<Icon as={RiAccountCircleFill} w={12} h={12} />}
+                                _hover={{ bgColor: "transparent" }}
+                            />
+                        </Link>
+
                     </HStack>    
                 </HStack>
             </ContainerLayout>
@@ -140,16 +148,10 @@ function Navbar() {
                 align="center"
                 p="15px"
                 position="fixed"
+                bgColor="#f9fafb"
                 top={0}
                 left={0}
                 zIndex={999}
-                bgColor="rgba(255, 255, 255, 0.7)"
-                borderBottom="1px solid"
-                borderBottomColor="white"
-                sx={{
-                    WebkitBackdropFilter: "blur(20px)",
-                    backdropFilter: "blur(20px)",
-                }}
             >
                     <Box w="fit-content">
                         <AppLogo/>
@@ -197,7 +199,7 @@ function Navbar() {
                                         fontSize={[20, 20, 24]}
                                         fontWeight={400}
                                         color={item.id === id ? "brand.100" : "brand.500"}
-                                        lineHeight="100%"
+                                        lineHeight="24px"
                                         letterSpacing="0%"
                                         _hover={{ color: "brand.100" }}
                                         onClick={onClose}
@@ -212,16 +214,56 @@ function Navbar() {
                           w="full"
                           justify="start"
                           align="start"
+                          gap="20px"
+                          mt="20px"
                         >
 
                             <CtaButton
                                 isLink={true}
                                 isFull={true}
                                 btnText="Contact us"
-                                isOutline={false}
+                                isOutline={true}
                                 url="/contact-us"
                                 handleClick={onClose}
                             />
+
+                            <Link 
+                                to="/account/login" 
+                                onClick={onClose} 
+                                style={{  width: "100%" }}
+                            >
+
+                               <HStack
+                                 w="full"
+                                 justify="center"
+                                 align="center"
+                                 gap="20px"
+                                 border="1px solid"
+                                 borderColor="brand.100"
+                                 py="15px"
+                                 px="25px"
+                                 rounded="5px"
+                               >
+                                    <IconButton
+                                        aria-label="Search database"
+                                        color="brand.100"
+                                        bgColor="transparent"
+                                        icon={<Icon as={RiAccountCircleFill} w={12} h={12} />}
+                                        _hover={{ bgColor: "transparent" }}
+                                    />
+
+                                    <Text
+                                        fontSize={[20, 20, 24]}
+                                        fontWeight={400}
+                                        color="brand.100"
+                                        lineHeight="24px"
+                                        letterSpacing="0%"
+                                        _hover={{ color: "brand.100" }}
+                                    >
+                                        Account
+                                    </Text>
+                               </HStack>
+                            </Link>
                         </VStack>
 
                         </VStack>

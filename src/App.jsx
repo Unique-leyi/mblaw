@@ -5,13 +5,20 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Box } from "@chakra-ui/react";
 import ScrollToTop from "./ui/ScrollTop";
-import NotFoundPage from "./pages/NotFound";
 import SpinnerOverlay from "./ui/SpinnerOverlay";
 import PageLayout from "./ui/layouts/PageLayout";
-import HomePage from "./pages/Home";
 
-
-
+// Lazy load all pages
+const HomePage = lazy(() => import("./pages/HomePage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const TeamPage = lazy(() => import("./pages/TeamPage"));
+const TeamDetailPage = lazy(() => import("./pages/TeamDetailPage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage"));
+const PracticeAreasPage = lazy(() => import("./pages/PracticeAreasPage"));
+const PracticeAreaDetailPage = lazy(() => import("./pages/PracticeAreaDetailPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 function App() {
   useEffect(() => {
@@ -25,17 +32,14 @@ function App() {
           <Routes>
             <Route element={<PageLayout />}>
               <Route path="/" element={<HomePage />} />
-{ /*            <Route path="/about-us" element={<AboutPage />} />
+              <Route path="/about-us" element={<AboutPage />} />
               <Route path="/team" element={<TeamPage />} />
               <Route path="/team/team-detail/:slug" element={<TeamDetailPage />} />
-              <Route path="/plans/plan-detail/:slug" element={<ServiceDetailPage />} />
-              <Route path="/plans" element={<ServicesPage />} />
-              <Route path="/hospital-network" element={<HospitalNetworkPage />} />
-              <Route path="/contact-us" element={<ContactPage />} />*/}
-            </Route>
-
-
-            <Route element={<PageLayout />}>
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/post-detail/:slug" element={<BlogDetailPage />} />
+              <Route path="/practice-areas" element={<PracticeAreasPage />} />
+              <Route path="/practice-areas/:slug" element={<PracticeAreaDetailPage />} />
+              <Route path="/contact-us" element={<ContactPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>

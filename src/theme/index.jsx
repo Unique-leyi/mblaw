@@ -3,7 +3,7 @@ import { extendTheme } from '@chakra-ui/react';
 const styles = {
   global: () => ({
     body: {
-      bg: '#f3fff9 !important',
+      bg: '#f9fafb !important',
       color: '#000',
     },
   }),
@@ -14,7 +14,11 @@ const colors = {
     100: "#0B1D3A",
     200: "#00000099",
     300: "#FFFFFF",
-    400: "#25262A",
+    400: "#4B5563",
+    500: "#0B1D3A05",
+    600: "#121416",
+    700: "#F9FAFB",
+    800: "#F4F6F7"
   },
 };
 
@@ -28,6 +32,7 @@ const gradients = {
 const fonts = {
   heading: `'Cormorant Garamond', serif;`,
   body: `'Manrope', sans-serif`,
+  openSans: `'Open Sans', sans-serif`,
 };
 
 

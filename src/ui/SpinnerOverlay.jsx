@@ -1,8 +1,7 @@
-import { Icon, useTheme, VStack } from '@chakra-ui/react';
-import { Users } from 'lucide-react';
 import styled, { keyframes } from 'styled-components';
+import { Image } from '@chakra-ui/react';
 
-// Simple 360 degree rotation animation
+// Smooth rotation
 const spin = keyframes`
   0% {
     transform: rotate(0deg);
@@ -12,57 +11,75 @@ const spin = keyframes`
   }
 `;
 
+// Subtle scale animation
+const breathe = keyframes`
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+`;
+
+// Fade in
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 const SpinnerContainer = styled.div`
   position: relative;
-  width: 180px;
-  height: 180px;
+  width: 140px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
+// Simple, clean spinner ring
 const SpinnerRing = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, #1d4ed8,rgb(76, 98, 160),rgb(7, 44, 146));
-  mask: radial-gradient(circle, transparent 80px, black 82px, transparent 85px);
-  -webkit-mask: radial-gradient(circle, transparent 80px, black 82px, transparent 85px);
-  animation: ${spin} 1.5s linear infinite;
+  border: 4px solid transparent;
+  border-top-color: #0B1D3A;
+  border-right-color: #0B1D3A;
+  animation: ${spin} 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 `;
 
-const ImageContainer = styled.div`
+// Second ring for depth
+const SpinnerRingSecondary = styled.div`
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-bottom-color: rgba(11, 29, 58, 0.3);
+  border-left-color: rgba(11, 29, 58, 0.3);
+  animation: ${spin} 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse;
+`;
+
+// Clean icon container
+const IconContainer = styled.div`
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
+  animation: ${breathe} 3s ease-in-out infinite;
 `;
 
-const SpinnerImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-`;
-
-const PlaceholderIcon = styled.div`
-  width: 30px;
-  height: 30px;
-  background: #ccc;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #888;
-  font-size: 14px;
-  font-weight: bold;
-`;
-
+// Minimal overlay
 const CenteredOverlay = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: fixed;
@@ -70,32 +87,52 @@ const CenteredOverlay = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: rgba(249, 250, 251, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 9999;
+  animation: ${fadeIn} 0.2s ease-out;
+`;
+
+// Clean content container
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  animation: ${fadeIn} 0.3s ease-out 0.1s backwards;
+`;
+
+// Professional loading text
+const LoadingText = styled.div`
+  font-family: 'Manrope', 'Open Sans', -apple-system, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0B1D3A;
+  letter-spacing: -0.01em;
 `;
 
 function SpinnerOverlay() {
-    const theme = useTheme();
-
- return (
+  return (
     <CenteredOverlay>
-      <SpinnerContainer>
-        <SpinnerRing />
-        <ImageContainer>
-            <VStack
-                w="70px"
-                h="65px"
-                justify="center"
-                align="center"
-                bg={theme.gradients.primary}
-                color="white"
-                rounded="12px"
-            >
-                <Icon as={Users} fontSize="30px"/>
-            </VStack>
-          
-        </ImageContainer>
-      </SpinnerContainer>
+      <ContentContainer>
+        <SpinnerContainer>
+          <SpinnerRingSecondary />
+          <SpinnerRing />
+          <IconContainer>
+            <Image
+              w="60px"
+              h="60px"
+              src="https://res.cloudinary.com/doqvfemo3/image/upload/v1762763348/MbLaw/f660e10be643c8e8162463cdd851cdf7f8da16d8_lfusar.png"
+              alt="MB Law Logo"
+              objectFit="contain"
+            />
+          </IconContainer>
+        </SpinnerContainer>
+        
+        <LoadingText>Loading...</LoadingText>
+      </ContentContainer>
     </CenteredOverlay>
   );
 }

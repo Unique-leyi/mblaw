@@ -1,104 +1,116 @@
 export const teamData = [
     {
-        name: "Ifeanyi Fredrick Offor",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1755094496/IMG-20250812-WA0024_dq3xqd.jpg",
-        role: "Chief Executive Officer, Greenshield HMO Ltd ",
-        biography: [
-            "Mr. Ifeanyi Fredrick Offor is a seasoned professional in Marketing and Brand Management, with over three decades of experience spanning media, hospitality, transportation, fast-moving consumer goods (FMCG), and healthcare. He holds an MBA in Marketing (1995) and an MPA in Human Resources Management/Public Administration (1992), both from the University of Maiduguri. He also earned a B.Ed. in History and Education from the University of Nigeria, Nsukka, in 1988.", 
-
-            "Mr. Offor began his career in 1989 with Champion Newspapers Ltd as a Circulation Assistant in Maiduguri. He rose to the position of Assistant Manager, where he demonstrated exceptional versatility by handling circulation, editorial coordination, and advertising functions. In 1999, he transitioned into the hospitality sector as Marketing Manager for Precious Palm Royal Hotel in Benin City, where he played a pivotal role in repositioning the establishment as one of the top hotels in the region.", 
-
-            "In 2000, he joined the Chisco Group as Personal Assistant to the Group Chairman and later assumed dual responsibilities as Acting Head of Human Resources and Administration. In these roles, he introduced strategic innovations that elevated the Group into a leading brand in Nigeria’s transport and logistics sector. He also led the recruitment of top-tier talent and spearheaded the establishment of key business units such as CTN Express Ltd, logistics partnerships with Nigerian Breweries Plc, and expansions into hospitality and real estate.", 
-
-            "In 2006, he took on the role of Head of Marketing and Operations at West African Distributors Ltd, a prominent FMCG company. There, he developed and implemented a nationwide distribution network that significantly boosted the company’s market presence and revenue. His journey continued in 2011 at Beulah Group, a leading medical laboratory firm in Lagos, where he served as Head of Marketing and Business Development.", 
-
-            "In 2012, Mr. Offor joined Mediplan Healthcare Ltd, a leading Health Maintenance Organisation (HMO), as Head of Marketing and Business Development. Under his leadership, the company achieved substantial growth, surpassing a turnover of N2 billion. His outstanding performance earned him a promotion to Managing Director, where he successfully led the company through two National Health Insurance Authority (NHIA) reaccreditation exercises and managed the organisation’s most valuable accounts until his retirement in June 2024.", 
-
-            "In June 2025, Mr. Offor was appointed Executive Director and pioneer Chief Operations Officer (COO) at Greenshield HMO Ltd. He brings with him a wealth of experience, industry insight, and an extensive network of corporate relationships expected to significantly enhance the company’s strategic growth and market competitiveness.", 
-
-            "Mr. Offor is a member of several professional bodies, including the Nigerian Institute of Management (Chartered), the Chartered Institute of Personnel Management of Nigeria, the Nigerian Marketing Association, and the Chartered Institute of Administration. He has attended numerous local and international trainings in marketing, sales, brand management, and human resources development.", 
-
-            "He firmly believes that business development is the heartbeat of every successful enterprise and that the quality of human capital is the most critical determinant of organisational performance and transformation.", 
-
-            "A committed Rotarian, Mr. Offor also worships with the Redeemed Christian Church of God (RCCG). He is happily married and blessed with children. ",
-        ]
-    },
-
-
-    {
-        name: "Gideon Chukwu Durunwa",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1755094498/IMG-20250812-WA0014_e4tae8.jpg",
-        role: "Non-Executive Director / Head of Client Experience Centre & Claims Manager",
-        biography: [
-            "Gideon Chukwu Durunwa is a licensed Registered Nurse and an accomplished healthcare professional with a proven track record in clinical practice and health insurance administration. With over four years of progressive experience in the Health Maintenance Organisation (HMO) sector, he combines clinical expertise with strategic leadership to enhance operational efficiency and client satisfaction.", 
-
-            "Gideon earned his Bachelor of Nursing Science degree from IPSP University, Niger (2016) and obtained his Registered Nurse license from the College of Nursing, Warri (2019). He began his career as a Depot Nurse at Tincan Hospital, a facility providing medical services to Total Nigeria PLC’s in-house clinics. In 2019, he was assigned to the Total Nigeria PLC Blending Plant in Koko, Delta State, and later transferred to the Mile 2 Depot, Lagos, in 2020. In these roles, he delivered occupational health services, emergency care, and routine medical checkups, while ensuring compliance with health and safety regulations in fast-paced industrial environments.", 
-
-            "In 2021, driven by a desire to influence healthcare delivery at a systemic level, Gideon transitioned into the HMO sector by joining Rothauge Healthcare Limited as a Call Centre Agent. His outstanding communication skills, empathy, and problem-solving abilities quickly set him apart. After completing advanced training in health insurance operations, customer service, and claims processing, he was promoted within two years to Head of the Call Centre and Claims Department. There, he streamlined claims processes, significantly improved resolution timelines, and raised client satisfaction benchmarks.", 
-
-            "In 2024, Gideon joined Greenshield HMO as Head of the Customer Experience Centre and Claims Manager. He now leads a multidisciplinary team overseeing client onboarding, issue escalation, provider relationship management, and claims adjudication. His approach blends empathy with precision, ensuring that clients and providers alike receive prompt and professional service.", 
-
-            "Gideon is recognised for his ability to bridge the gap between clinical care and insurance operations. His leadership philosophy centres on collaboration, continuous improvement, and data-driven decision-making. This mindset has delivered measurable success in claims accuracy, operational excellence, and stakeholder engagement. "
-        ]
-    },
-
-
-    {
-        name: "Timon Oviawe",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1755094497/IMG-20250721-WA0017_sjqocg.jpg",
-        role: "Non-Executive Director, Greenshield HMO Ltd ",
-        biography: [
-            "Timon Oviawe is a distinguished professional with over 23 years of experience in human capital development, information technology, emotional intelligence, and leadership training. He holds a Bachelor’s degree from Ogun State University of Agriculture and a Master’s degree in Leadership and Theological Studies from the International Leadership University, Nairobi—delivered through its Nigerian hub at the African Centre for Theological Studies, Ilupeju, Lagos.", 
-
-            "He is professionally certified in web programming, software development and holds dual international credentials in emotional intelligence: Emotional Intelligence Certified Professional (EICP) and Emotional Intelligence Certified Coach (EICC). He is also a Certified Trainer recognised by Nigeria’s Centre for Management Development (CMD). His areas of specialisation include personal and corporate behavioural change, emotional intelligence, leadership development, recruitment services, and organisational performance enhancement.", 
-
-            "Mr. Oviawe currently serves as the Chief Executive Officer of TOPIT Consulting Limited, a dynamic human development and IT consulting firm based in Lagos. He is also a Partner at Skills Bridge Consulting, a cooperative training and recruitment consultancy located in Lekki, Lagos.", 
-
-            "Throughout his career, Mr. Oviawe has held several strategic roles, including Software Solutions Manager at E-Softies Nigeria Limited, Head of Information Technology and Programme Coordinator at Clement Ashley Consulting, and Head of IT/Web Coordinator at Channels Television, one of Nigeria’s foremost media organisations. In all roles, he has demonstrated a strong ability to design, lead, and implement systems that improve organisational efficiency and learning.", 
-
-            "With a passion for nurturing potential, Mr. Oviawe has spent more than a decade conducting leadership seminars and behavioural change programs for students in tertiary institutions across Nigeria’s South-West region. He is widely respected for his deep commitment to reshaping mindsets, building emotional resilience, and empowering the next generation of leaders.", 
-
-            "In the corporate space, he has facilitated training and leadership development for leading organisations, including UBA, First Bank, Mobil, Seplat, and Nestlé, among others—impacting both management and mid-level professionals.", 
-
-            "Beyond his professional work, Mr. Oviawe has dedicated over 16 years to marriage counselling, offering biblically grounded and practical advice to couples and individuals preparing for marriage. His latest book, The Heart's Homework, is a powerful guide to building and sustaining godly relationships and homes.", 
-
-            "He has been joyfully married for over 18 years and is a proud father of three—an enduring testament to God’s faithfulness. "
-        ]
-    },
-
-
-    {
-        name: "Mr. Eddie Osarenkhoe",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1757522183/Greenshield-HMO/WhatsApp_Image_2025-09-10_at_3.15.58_PM_mzf4hn.jpg",
-        role: "Non-Executive Director, Greenshield HMO Ltd",
-        biography: [
-            "Mr. Eddie Osarenkhoe was born in Benin City on May 23, 1951. He is a distinguished finance professional with over four decades of experience spanning accounting, audit, tax management, treasury and investment management, human resources, administration, and financial consultancy.", 
-
-            "He holds a Higher National Diploma in Accountancy from Auchi Polytechnic (1980) and an MBA from Edo State University. He is a Fellow of the Institute of Chartered Accountants of Nigeria (ICAN), an Associate Member of the Nigerian Institute of Taxation, and a seasoned authority in financial strategy and governance.", 
-
-            "Mr. Osarenkhoe began his career in 1971 at Bendel Insurance Company Plc, Benin City, where he rose to the position of Assistant General Manager (Audit) before moving to Phoenix of Nigeria Assurance Plc in Lagos in 1993 as Deputy General Manager (Finance and Administration). In January 2000, he transitioned from the insurance sector into financial consultancy, starting with Index Consulting Limited and later joining Jireh Consulting in 2001.", 
-
-            "In 2003, he established TFS Limited, a financial and management consultancy firm. This led to the creation of TFS Finance Limited, where he served as Managing Director/CEO from 2005 until August 31, 2022, when the company was successfully acquired. Following the acquisition, Mr. Osarenkhoe reactivated and restructured TFS Limited, where he continues to serve as CEO.", 
-
-            "He is a former President of the Finance Houses Association of Nigeria (FHAN) and has attended numerous local and international seminars in insurance, finance, SME development, and management. His professional insights and leadership have made notable contributions to Nigeria’s financial services sector.", 
-
-            "Beyond his corporate endeavours, Mr. Osarenkhoe is deeply committed to education and agriculture. He is the Chairman of the Board of Governance at Covenant Christian Academy, Lagos, and a Director at Gosano Farms Nigeria Limited, Benin City.", 
-
-            "He is happily married, a proud father, and a grandfather—testifying to a life of purpose, family, and impactful service. "
+        name: "Barbara Kean",
+        role: "Senior Partner",
+        type: "Family Lawyer",
+        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1762781839/MbLaw/8fae0f12c8b28cc6c75ff4711f276df7761fb92f_wtqfn7.jpg",
+        briefDescription: "Barbara Kean is a dedicated Family Lawyer with over 10 years of experience in handling complex family law cases. She is committed to providing compassionate and effective legal support to her clients during challenging times. Specializing in divorce, child custody, and adoption, Barbara strives to achieve the best possible outcomes for families. ",
+        bio: "Barbara Kean is a dedicated Family Lawyer with over 10 years of experience in handling complex family law cases. She is committed to providing compassionate and effective legal support to her clients during challenging times. Specializing in divorce, child custody, and adoption, Barbara strives to achieve the best possible outcomes for families. Her empathetic approach and strong negotiation skills make her a trusted advocate in family law matters.",
+        achivements: [
+            "LL.B (Hons), University of Cambridge – Graduated with distinction in Family Law.",
+            "Bar Professional Training Course (BPTC) – Called to the Bar of England and Wales.",
+            "Master of Laws (LL.M), University of Oxford – Specialized in Family Law and Child Protection.",
+            "Member, Law Society of England and Wales",
+            "Member, Family Law Bar Association",
+            "Award for Excellence in Family Law Practice (2022) – Recognized for outstanding client advocacy.",
+            "Guest Speaker, UK Family Law Conference 2023 – Presented on \"Modern Approaches to Child Custody Cases.\"",
+            "Over 200 Family Law Cases Successfully Handled – With a proven track record of favorable outcomes for clients.",
         ]
     },
 
     {
-        name: "Dr. Godwin Adakole Obute",
-        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1762196189/Greenshield-HMO/WhatsApp_Image_2025-11-03_at_7.15.04_PM_pz11lj.jpg",
-        role: "Non-Executive Director, Greenshield HMO Ltd",
-        biography: [
-            "Dr. Godwin A. Obute is a Medical Doctor and holds an MBBCh of the University of Jos and also holds a Diploma (DFM) in Family Medicine. He is the Proprietor and Medical Director of Adonai Hospital, Abuja. ", 
+        name: "Fashola Kunle",
+        role: "Principal Attorney & Managing Partner",
+        type: "Commercial Lawyer",
+        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1762781836/MbLaw/60faf2dadd50b6495c0adacd1ca675c2b11c1e3b_yphyj9.jpg",
+        briefDescription: "Fashola Kunle is the Principal Attorney and Managing Partner at MB Law, bringing over 15 years of expertise in Commercial Law. He has a proven track record of advising multinational corporations and startups on complex legal matters, including mergers and acquisitions, contract negotiations, and regulatory compliance. Fashola is known for his strategic thinking and ability to navigate the intricacies of commercial law, ensuring that his clients achieve their business objectives while mitigating legal risks. ",
+        bio: "Fashola Kunle is the Principal Attorney and Managing Partner at MB Law, bringing over 15 years of expertise in Commercial Law. He has a proven track record of advising multinational corporations and startups on complex legal matters, including mergers and acquisitions, contract negotiations, and regulatory compliance. Fashola is known for his strategic thinking and ability to navigate the intricacies of commercial law, ensuring that his clients achieve their business objectives while mitigating legal risks. Under his leadership, MB Law has become a trusted partner for businesses seeking innovative legal solutions. His commitment to excellence and client success drives the firm's mission to deliver top-tier legal services.",
+        achivements: [
+            "LL.B (Hons), University of London – Graduated with distinction in Commercial and Corporate Law.",
+            "Legal Practice Course (LPC) – Qualified as a Solicitor of England and Wales.",
+            "Master of Laws (LL.M), University of Cambridge – Specialized in International Business and Corporate Law.",
+            "Member, Law Society of England and Wales",
+            "Member, International Bar Association (IBA)",
+            "Award for Excellence in Legal Innovation (2023) – Recognized for advancing digital transformation in legal practice.",
+            "Guest Speaker, UK Legal Tech Conference 2024 – Presented on \"Modernizing Law Firms Through Technology and Client-Centered Design.\"",
+            "Led Successful Digital Transformation at MB Law – Streamlined firm operations, enhancing collaboration and data security.",
+            "Over 300 Commercial Law Cases Successfully Handled – Across corporate, commercial, and business law, with a proven track record of favorable outcomes.",
+        ]
+    },
 
-            "He is a Fellow of the Institute of Health Insurance and Managed Care of Nigeria (IHIMC) and a Fellow of the African Business School. He has had very extensive knowledge and practice of healthcare delivery.", 
+    {
+        name: "Rhoda Phillips",
+        role: "Associate Attorney",
+        type: "Criminal Lawyer",
+        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1762781830/MbLaw/b786603d5388caa5d2410fb6497025ac88e477b5_lxlsdl.jpg",
+        briefDescription: "Rhoda Phillips is an Associate Attorney at MB Law, specializing in Criminal Law. With over 7 years of experience, Rhoda has successfully represented clients in a wide range of criminal cases, from minor offenses to serious felonies. She is dedicated to protecting the rights of the accused and ensuring fair treatment within the legal system. Rhoda's meticulous approach to case preparation and her strong courtroom presence have earned her a reputation as a formidable advocate. ",
+        bio: "Rhoda Phillips is an Associate Attorney at MB Law, specializing in Criminal Law. With over 7 years of experience, Rhoda has successfully represented clients in a wide range of criminal cases, from minor offenses to serious felonies. She is dedicated to protecting the rights of the accused and ensuring fair treatment within the legal system. Rhoda's meticulous approach to case preparation and her strong courtroom presence have earned her a reputation as a formidable advocate. She is passionate about justice and works tirelessly to achieve the best possible outcomes for her clients. Rhoda is also actively involved in community outreach programs aimed at educating the public about their legal rights.",
+        achivements: [
+            "LL.B (Hons), University of Manchester – Graduated with distinction in Criminal Law.",
+            "Bar Professional Training Course (BPTC) – Called to the Bar of England and Wales.",
+            "Master of Laws (LL.M), King's College London – Specialized in Criminal Justice and Human Rights.",
+            "Member, Criminal Bar Association",
+            "Member, Law Society of England and Wales",
+            "Rising Star Award in Criminal Defense (2021) – Recognized for outstanding advocacy skills.",
+            "Guest Speaker, Criminal Law Seminar 2023 – Presented on \"Defending Clients' Rights in Modern Criminal Proceedings.\"",
+            "Over 150 Criminal Cases Successfully Handled – With a strong track record of achieving favorable outcomes for clients.",
+        ]
+    },
 
-            "He is also a member of the Nigerian Medical Association (NMA), the Guild of Medical Directors of Nigeria (GMD), Association of General and Private Medical Practitioners of Nigeria (AGPMPN) and Healthcare Providers Association of Nigeria (HCPAN).", 
+    {
+        name: "James Mitchell",
+        role: "Senior Associate",
+        type: "Immigration Lawyer",
+        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1762781836/MbLaw/60faf2dadd50b6495c0adacd1ca675c2b11c1e3b_yphyj9.jpg",
+        briefDescription: "James Mitchell is a Senior Associate at MB Law, specializing in Immigration Law with over 9 years of experience. He has successfully represented clients in complex immigration matters, including visa applications, asylum cases, and citizenship processes. James is known for his thorough understanding of UK immigration policies and his ability to navigate the complexities of the immigration system. ",
+        bio: "James Mitchell is a Senior Associate at MB Law, specializing in Immigration Law with over 9 years of experience. He has successfully represented clients in complex immigration matters, including visa applications, asylum cases, and citizenship processes. James is known for his thorough understanding of UK immigration policies and his ability to navigate the complexities of the immigration system. His compassionate approach and attention to detail have helped numerous families and individuals achieve their immigration goals. James is committed to providing clear guidance and support throughout the entire immigration process.",
+        achivements: [
+            "LL.B (Hons), University of Birmingham – Graduated with distinction in Immigration and Asylum Law.",
+            "Legal Practice Course (LPC) – Qualified as a Solicitor of England and Wales.",
+            "Master of Laws (LL.M), University of Nottingham – Specialized in International Migration and Refugee Law.",
+            "Member, Immigration Law Practitioners' Association (ILPA)",
+            "Member, Law Society of England and Wales",
+            "Excellence in Immigration Practice Award (2022) – Recognized for outstanding client service and successful case outcomes.",
+            "Guest Speaker, Immigration Law Conference 2023 – Presented on \"Navigating Post-Brexit Immigration Challenges.\"",
+            "Over 250 Immigration Cases Successfully Handled – With a high success rate in visa applications and appeals.",
+        ]
+    },
 
+    {
+        name: "Sarah Williams",
+        role: "Partner",
+        type: "Real Estate Lawyer",
+        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1762781839/MbLaw/8fae0f12c8b28cc6c75ff4711f276df7761fb92f_wtqfn7.jpg",
+        briefDescription: "Sarah Williams is a Partner at MB Law, specializing in Real Estate Law with over 12 years of experience. She has extensive expertise in property transactions, commercial leases, and property development matters. Sarah has successfully represented clients ranging from first-time homebuyers to large property developers. Her strategic approach and deep knowledge of property law have made her a trusted advisor in the real estate sector. ",
+        bio: "Sarah Williams is a Partner at MB Law, specializing in Real Estate Law with over 12 years of experience. She has extensive expertise in property transactions, commercial leases, and property development matters. Sarah has successfully represented clients ranging from first-time homebuyers to large property developers. Her strategic approach and deep knowledge of property law have made her a trusted advisor in the real estate sector. Sarah is known for her ability to identify potential issues early and provide practical solutions that protect her clients' interests while facilitating smooth transactions.",
+        achivements: [
+            "LL.B (Hons), University of Bristol – Graduated with distinction in Property Law.",
+            "Legal Practice Course (LPC) – Qualified as a Solicitor of England and Wales.",
+            "Master of Laws (LL.M), University of Edinburgh – Specialized in Commercial Property and Land Law.",
+            "Member, Law Society of England and Wales",
+            "Member, Property Litigation Association",
+            "Property Lawyer of the Year (2023) – Recognized for excellence in real estate transactions.",
+            "Guest Speaker, Real Estate Law Summit 2024 – Presented on \"Modern Trends in Commercial Property Transactions.\"",
+            "Over 400 Real Estate Transactions Successfully Completed – Including complex commercial and residential property deals.",
+        ]
+    },
+
+    {
+        name: "David Thompson",
+        role: "Associate Attorney",
+        type: "Litigation Lawyer",
+        image: "https://res.cloudinary.com/doqvfemo3/image/upload/v1762781830/MbLaw/b786603d5388caa5d2410fb6497025ac88e477b5_lxlsdl.jpg",
+        briefDescription: "David Thompson is an Associate Attorney at MB Law, specializing in Litigation and Dispute Resolution with over 8 years of experience. He has successfully represented clients in various civil litigation matters, including contract disputes, commercial conflicts, and employment disputes. David is known for his analytical thinking and persuasive advocacy skills. ",
+        bio: "David Thompson is an Associate Attorney at MB Law, specializing in Litigation and Dispute Resolution with over 8 years of experience. He has successfully represented clients in various civil litigation matters, including contract disputes, commercial conflicts, and employment disputes. David is known for his analytical thinking and persuasive advocacy skills. He approaches each case with a strategic mindset, always seeking the most efficient path to resolution while protecting his clients' interests. David's courtroom experience and negotiation expertise have resulted in favorable outcomes for clients across diverse industries.",
+        achivements: [
+            "LL.B (Hons), University of Leeds – Graduated with distinction in Civil Litigation.",
+            "Bar Professional Training Course (BPTC) – Called to the Bar of England and Wales.",
+            "Master of Laws (LL.M), University of Durham – Specialized in Dispute Resolution and Commercial Litigation.",
+            "Member, Commercial Bar Association",
+            "Member, Law Society of England and Wales",
+            "Rising Star in Litigation (2022) – Recognized for exceptional advocacy and case management skills.",
+            "Guest Speaker, Litigation Forum 2023 – Presented on \"Effective Strategies in Commercial Dispute Resolution.\"",
+            "Over 180 Litigation Cases Successfully Resolved – With a strong track record of favorable settlements and court victories.",
         ]
     },
 ]

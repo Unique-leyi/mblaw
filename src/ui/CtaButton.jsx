@@ -9,10 +9,15 @@ function CtaButton({
     isFull, 
     handleClick, 
     icon, 
+    leftIcon,
+    rightIcon,
     url, 
     isOutline, 
     isDisabled, 
-    isLoading 
+    isLoading,
+    isReverse,
+    borderColor,
+    color
 }) {
 
 
@@ -25,15 +30,21 @@ function CtaButton({
             >
                 <Button
                     w={isFull ? "full" : ["full", "full", "full", "fit-content"]}
-                    bgColor={isOutline ? "brand.300" : "brand.100" }
-                    color={isOutline ? "brand.100" : "white"}
-                    py="12px"
-                    px="20px"
+                    bgColor={isOutline ? "transparent" :  ( isReverse ? "white" :  "brand.100" )}
+                    color={color || (isOutline ? "brand.100" : ( isReverse ? "brand.100" :  "white" ))}
+                    border="1px solid"
+                    borderColor={borderColor || (isReverse ? "white" :  "brand.100")}
+                    py="18px"
+                    px="25px"
                     h="initial"
+                    fontFamily="openSans"
                     fontSize={[18, 18, 20]}
                     fontWeight={500}
-                    rounded="10px"
+                    lineHeight="100%"
+                    rounded="initial"
                     textAlign="center"
+                    leftIcon={leftIcon ? <Icon as={leftIcon} /> : undefined}
+                    rightIcon={rightIcon ? <Icon as={rightIcon} /> : undefined}
                     onClick={handleClick}
                     isDisabled={isDisabled}
                     isLoading={isLoading}
@@ -49,15 +60,21 @@ function CtaButton({
             :
             <Button
                 w={isFull ? "full" : ["full", "full", "full", "fit-content"]}
-                bgColor={isOutline ? "brand.300" : "brand.100" }
-                color={isOutline ? "brand.100" : "white"}
-                py="12px"
-                px="20px"
+                bgColor={isOutline ? "transparent.300" :  ( isReverse ? "white" :  "brand.100" )}
+                color={color || (isOutline ? "brand.100" : ( isReverse ? "brand.100" :  "white" ))}
+                border="1px solid"
+                borderColor={borderColor || (isReverse ? "white" :  "brand.100")}
+                py="18px"
+                px="25px"
                 h="initial"
+                fontFamily="openSans"
                 fontSize={[18, 18, 20]}
                 fontWeight={500}
-                rounded="10px"
+                lineHeight="100%"
+                rounded="initial"
                 textAlign="center"
+                leftIcon={leftIcon ? <Icon as={leftIcon} /> : undefined}
+                rightIcon={rightIcon ? <Icon as={rightIcon} /> : undefined}
                 onClick={handleClick}
                 isDisabled={isDisabled}
                 isLoading={isLoading}
