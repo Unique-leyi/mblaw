@@ -124,7 +124,7 @@ function Navbar({ isWhite = false }) {
                             color={isWhite ? "white" : undefined}
                         />
 
-                        <Link to="/account/login">
+                        <Link to="/login">
                             <IconButton
                                 aria-label="Search database"
                                 color={isWhite ? "white" : "brand.100"}
@@ -228,7 +228,7 @@ function Navbar({ isWhite = false }) {
                             />
 
                             <Link 
-                                to="/account/login" 
+                                to="/login" 
                                 onClick={onClose} 
                                 style={{  width: "100%" }}
                             >

@@ -18,6 +18,9 @@ const BlogDetailPage = lazy(() => import("./pages/BlogDetailPage"));
 const PracticeAreasPage = lazy(() => import("./pages/PracticeAreasPage"));
 const PracticeAreaDetailPage = lazy(() => import("./pages/PracticeAreaDetailPage"));
 const ContactPage = lazy(() => import("./pages/ContactPage"));
+const CreateAccountPage = lazy(() => import("./pages/CreateAccountPage"));
+const ChangePasswordPage = lazy(() => import("./pages/ChangePasswordPage"));
+const LoginPage = lazy(() => import("./pages/LoginPage"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 function App() {
@@ -40,6 +43,9 @@ function App() {
               <Route path="/practice-areas" element={<PracticeAreasPage />} />
               <Route path="/practice-areas/:slug" element={<PracticeAreaDetailPage />} />
               <Route path="/contact-us" element={<ContactPage />} />
+              <Route path="/create-account" element={<CreateAccountPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/change-password" element={<ChangePasswordPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>

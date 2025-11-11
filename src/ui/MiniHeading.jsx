@@ -10,6 +10,9 @@ function MiniHeading({
   content,
   contentColor = "brand.400",
   btnText, 
+  miniTitleFontSize,
+  titleFontSize,
+  contentFontSize,
   isReverse = false,
   isCenter = false,
   url 
@@ -33,7 +36,7 @@ function MiniHeading({
           gap="15px"
         >
           <Text
-              fontSize={["16px", "16px", "20px"]}
+              fontSize={miniTitleFontSize ? miniTitleFontSize : ["16px", "16px", "20px"]}
               fontWeight={300}
               lineHeight="24px"
               color={miniTitleColor}
@@ -44,7 +47,7 @@ function MiniHeading({
           </Text>
 
           <Heading
-              fontSize={["32px", "36px", "50px"]}
+              fontSize={titleFontSize ? titleFontSize : ["32px", "36px", "50px"]}
               fontWeight={700}
               lineHeight="100%"
               color={titleColor}
@@ -56,7 +59,7 @@ function MiniHeading({
 
           {content &&  (
             <Text
-                fontSize={["16px", "16px", "20px"]}
+                fontSize={contentFontSize ? contentFontSize : ["16px", "16px", "20px"]}
                 fontWeight={300}
                 lineHeight="25px"
                 color={contentColor}

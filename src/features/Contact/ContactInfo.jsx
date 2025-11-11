@@ -124,7 +124,7 @@ function ContactInfo() {
                         </VStack>
 
 
-                                                <VStack
+                        <VStack
                           w="full"
                           justify="start"
                           align="start"
