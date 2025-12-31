@@ -7,13 +7,9 @@ import {
   Text,
   Input,
   IconButton,
-  Avatar,
   Flex,
   Heading,
   Badge,
-  Textarea,
-  FormControl,
-  FormLabel,
   useToast,
   Collapse,
   ScaleFade,
@@ -25,28 +21,16 @@ import {
   X, 
   Bot, 
   User,
-  Phone,
-  Mail,
-  ExternalLink,
   Sparkles,
-  Search,
-  MapPin,
-  Building2,
-  FileText
 } from 'lucide-react';
 import aiService from '../services/aiService';
 
 const AIChatbot = () => {
-
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [hospitalSearchQuery, setHospitalSearchQuery] = useState('');
-  const [hospitalSearchResults, setHospitalSearchResults] = useState([]);
-  const [isSearchingHospitals, setIsSearchingHospitals] = useState(false);
   const messagesEndRef = useRef(null);
-  const searchTimeoutRef = useRef(null);
   const toast = useToast();
   const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -56,13 +40,13 @@ const AIChatbot = () => {
       const welcomeMessage = {
         id: 1,
         type: 'bot',
-        text: "👋 Hello! I'm your Greenshield HMO AI Assistant. I can help you with:\n\n• Finding the right health plan\n• Understanding coverage details\n• Locating hospitals in our network\n• Answering questions about our services\n\nHow can I assist you today?",
+        text: "👋 Hello! I'm your MB Law AI Assistant. I can help you with:\n\n• Understanding our practice areas\n• Answering questions about Canadian laws\n• Explaining legal processes and requirements\n• Guiding you to book a consultation\n• Providing general legal information\n\nI have knowledge about Canadian immigration, real estate, corporate, family, and criminal law. How can I assist you today?",
         timestamp: new Date(),
         suggestions: [
-          "What health plans do you offer?",
-          "How do I enroll?",
-          "Find hospitals near me",
-          "What's covered in your plans?"
+          "What practice areas do you cover?",
+          "Tell me about Canadian immigration law",
+          "How do I book a consultation?",
+          "What are Canadian business laws?"
         ]
       };
       setMessages([welcomeMessage]);
@@ -72,33 +56,13 @@ const AIChatbot = () => {
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isTyping, hospitalSearchResults]);
-
-  // Reset hospital search when chat closes
-  useEffect(() => {
-    if (!isOpen) {
-      setHospitalSearchQuery('');
-      setHospitalSearchResults([]);
-      setIsSearchingHospitals(false);
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
-      }
-    }
-  }, [isOpen]);
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current);
-      }
-    };
-  }, []);
+  }, [messages, isTyping]);
 
   const handleSendMessage = async () => {
-    if (!inputMessage.trim()) return;
+    if (!inputMessage.trim() || isTyping) return;
 
-    const messageToSend = inputMessage; // Store message before clearing
+    const messageToSend = inputMessage.trim();
+    const currentMessages = [...messages];
 
     const userMessage = {
       id: messages.length + 1,
@@ -112,40 +76,34 @@ const AIChatbot = () => {
     setIsTyping(true);
 
     try {
-      // Simulate typing delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Build conversation history for context
+      const conversationHistory = currentMessages
+        .filter(msg => msg.type === 'bot' || msg.type === 'user')
+        .map(msg => ({
+          type: msg.type,
+          text: msg.text,
+          content: msg.text
+        }));
+
+      const response = await aiService.processMessage(messageToSend, conversationHistory);
       
-      const response = await aiService.processMessage(messageToSend);
       const botMessage = {
         id: messages.length + 2,
         type: 'bot',
         text: response.message,
-        timestamp: response.timestamp,
-        suggestions: response.suggestions,
-        hospitals: response.hospitals || null,
-        showHospitalSearch: response.showHospitalSearch || false,
-        searchQuery: response.searchQuery || '',
-        totalHospitals: response.totalHospitals || null
+        timestamp: response.timestamp || new Date(),
+        suggestions: response.suggestions || [],
       };
-      setMessages(prev => [...prev, botMessage]);
       
-      // Initialize hospital search if needed
-      if (response.showHospitalSearch) {
-        setHospitalSearchQuery(response.searchQuery || '');
-        if (response.hospitals && response.hospitals.length > 0) {
-          setHospitalSearchResults(response.hospitals);
-        } else {
-          setHospitalSearchResults([]);
-        }
-      }
+      setMessages(prev => [...prev, botMessage]);
     } catch (error) {
       console.error('Error processing message:', error);
       const errorMessage = {
         id: messages.length + 2,
         type: 'bot',
-        text: "I'm sorry, I'm having trouble processing your request right now. Please try again or contact our support team directly.",
+        text: "I'm sorry, I'm having trouble processing your request right now. Please try again or contact our support team directly at +1-647-642-2117.",
         timestamp: new Date(),
-        suggestions: ["Contact support", "Try again"]
+        suggestions: ["Contact support", "Try again", "Book a consultation"]
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
@@ -155,24 +113,10 @@ const AIChatbot = () => {
 
   const handleSuggestionClick = (suggestion) => {
     setInputMessage(suggestion);
-    setTimeout(() => handleSendMessage(), 100);
-  };
-
-  const handleHospitalSearch = async (query) => {
-    setIsSearchingHospitals(true);
-    
-    try {
-      // Simulate search delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 200));
-      
-      const results = aiService.searchHospitals(query);
-      setHospitalSearchResults(results);
-    } catch (error) {
-      console.error('Error searching hospitals:', error);
-      setHospitalSearchResults([]);
-    } finally {
-      setIsSearchingHospitals(false);
-    }
+    // Small delay to ensure input is set before sending
+    setTimeout(() => {
+      handleSendMessage();
+    }, 100);
   };
 
   const handleKeyPress = (e) => {
@@ -183,10 +127,10 @@ const AIChatbot = () => {
   };
 
   const quickReplies = [
-    "What health plans do you offer?",
-    "How do I enroll?",
-    "Find hospitals near me",
-    "What's covered in your plans?"
+    "What practice areas do you cover?",
+    "Tell me about Canadian immigration law",
+    "How do I book a consultation?",
+    "What are Canadian business laws?"
   ];
 
   return (
@@ -196,7 +140,7 @@ const AIChatbot = () => {
         position="fixed"
         bottom={{ base: "40px", md: "80px" }}
         right={{ base: "30px", md: "50px" }}
-        zIndex={10000000000} // Higher than navbar
+        zIndex={10000000000}
       >
         {!isOpen && (
           <ScaleFade in={!isOpen} initialScale={0.9}>
@@ -206,11 +150,11 @@ const AIChatbot = () => {
               color="white"
               size="lg"
               borderRadius="full"
-              boxShadow="0 8px 32px rgba(0, 191, 99, 0.4)"
+              boxShadow="0 8px 32px rgba(11, 29, 58, 0.4)"
               _hover={{
                 bg: "brand.600",
                 transform: "scale(1.05)",
-                boxShadow: "0 12px 40px rgba(0, 191, 99, 0.5)",
+                boxShadow: "0 12px 40px rgba(11, 29, 58, 0.5)",
               }}
               transition="all 0.3s ease"
               h={{ base: "60px", md: "70px" }}
@@ -220,10 +164,10 @@ const AIChatbot = () => {
               sx={{
                 "@keyframes pulse": {
                   "0%, 100%": {
-                    boxShadow: "0 8px 32px rgba(0, 191, 99, 0.4)",
+                    boxShadow: "0 8px 32px rgba(11, 29, 58, 0.4)",
                   },
                   "50%": {
-                    boxShadow: "0 12px 48px rgba(0, 191, 99, 0.6)",
+                    boxShadow: "0 12px 48px rgba(11, 29, 58, 0.6)",
                   },
                 },
               }}
@@ -266,7 +210,7 @@ const AIChatbot = () => {
           boxShadow="0 20px 60px rgba(0, 0, 0, 0.3)"
           border="1px solid"
           borderColor="brand.100"
-          zIndex={10000000001} // Higher than navbar and chat button
+          zIndex={10000000001}
           display="flex"
           flexDirection="column"
           overflow="hidden"
@@ -288,7 +232,7 @@ const AIChatbot = () => {
                 borderRadius="12px"
                 position="relative"
               >
-                <Bot size={24} color="#00BF63" />
+                <Bot size={24} color="#0B1D3A" />
                 <Box
                   position="absolute"
                   top="2px"
@@ -304,7 +248,7 @@ const AIChatbot = () => {
               <VStack align="start" spacing={0}>
                 <HStack spacing={2}>
                   <Heading fontSize="18px" fontWeight="700" color="white">
-                    Greenshield AI
+                    MB Law AI
                   </Heading>
                   <Sparkles size={14} color="#D4AF37" />
                 </HStack>
@@ -337,15 +281,15 @@ const AIChatbot = () => {
                 width: "6px",
               },
               "&::-webkit-scrollbar-track": {
-                background: "rgba(0, 191, 99, 0.05)",
+                background: "rgba(11, 29, 58, 0.05)",
                 borderRadius: "3px",
               },
               "&::-webkit-scrollbar-thumb": {
-                background: "rgba(0, 191, 99, 0.3)",
+                background: "rgba(11, 29, 58, 0.3)",
                 borderRadius: "3px",
               },
               "&::-webkit-scrollbar-thumb:hover": {
-                background: "rgba(0, 191, 99, 0.5)",
+                background: "rgba(11, 29, 58, 0.5)",
               },
             }}
           >
@@ -436,210 +380,6 @@ const AIChatbot = () => {
                             {suggestion}
                           </Button>
                         ))}
-                      </VStack>
-                    )}
-
-                    {/* Hospital Search UI */}
-                    {message.showHospitalSearch && (
-                      <VStack 
-                        spacing={3} 
-                        align="stretch" 
-                        w="full" 
-                        mt={3}
-                        p={3}
-                        bg="white"
-                        borderRadius="12px"
-                        border="1px solid"
-                        borderColor="brand.100"
-                      >
-                        <HStack spacing={2} align="center">
-                          <Search size={18} color="#00BF63" />
-                          <Text fontSize="14px" fontWeight="600" color="gray.700">
-                            Search Hospital Network
-                          </Text>
-                          {message.totalHospitals && (
-                            <Badge colorScheme="green" fontSize="10px">
-                              {message.totalHospitals} hospitals
-                            </Badge>
-                          )}
-                        </HStack>
-                        
-                        {/* Search Bar */}
-                        <HStack spacing={2}>
-                          <Input
-                            placeholder="Search by location, hospital name, or plan type..."
-                            value={hospitalSearchQuery}
-                            onChange={(e) => {
-                              const query = e.target.value;
-                              setHospitalSearchQuery(query);
-                              
-                              // Clear previous timeout
-                              if (searchTimeoutRef.current) {
-                                clearTimeout(searchTimeoutRef.current);
-                              }
-                              
-                              // Debounce search - search after 400ms of no typing
-                              if (query.trim().length > 0) {
-                                setIsSearchingHospitals(true);
-                                searchTimeoutRef.current = setTimeout(() => {
-                                  handleHospitalSearch(query);
-                                }, 400);
-                              } else {
-                                // If query is empty, show empty results or initial results if available
-                                setHospitalSearchResults([]);
-                                setIsSearchingHospitals(false);
-                              }
-                            }}
-                            bg="white"
-                            border="1px solid"
-                            borderColor="gray.300"
-                            fontSize="13px"
-                            _focus={{
-                              borderColor: "brand.100",
-                              boxShadow: "0 0 0 1px #00BF63",
-                            }}
-                            onKeyPress={(e) => {
-                              if (e.key === 'Enter') {
-                                const currentQuery = e.target.value;
-                                setHospitalSearchQuery(currentQuery);
-                                if (searchTimeoutRef.current) {
-                                  clearTimeout(searchTimeoutRef.current);
-                                }
-                                handleHospitalSearch(currentQuery);
-                              }
-                            }}
-                          />
-                          <IconButton
-                            icon={<Search size={18} />}
-                            onClick={() => handleHospitalSearch(hospitalSearchQuery)}
-                            bg="brand.100"
-                            color="white"
-                            _hover={{ bg: "brand.600" }}
-                            isLoading={isSearchingHospitals}
-                            aria-label="Search hospitals"
-                          />
-                        </HStack>
-
-                        {/* Search Results */}
-                        {hospitalSearchResults.length > 0 ? (
-                          <VStack spacing={2} align="stretch" maxH="400px" overflowY="auto">
-                            <Text fontSize="12px" color="gray.600" fontWeight="500">
-                              Found {hospitalSearchResults.length} result{hospitalSearchResults.length > 1 ? 's' : ''}:
-                            </Text>
-                            {hospitalSearchResults.map((hospital, idx) => (
-                              <Box
-                                key={idx}
-                                p={3}
-                                bg="gray.50"
-                                borderRadius="8px"
-                                border="1px solid"
-                                borderColor="gray.200"
-                                _hover={{
-                                  borderColor: "brand.100",
-                                  bg: "green.50",
-                                  transform: "translateY(-2px)",
-                                  boxShadow: "0 4px 12px rgba(0, 191, 99, 0.15)"
-                                }}
-                                transition="all 0.2s"
-                              >
-                                <HStack spacing={2} mb={2}>
-                                  <Building2 size={16} color="#00BF63" />
-                                  <Text fontSize="14px" fontWeight="600" color="gray.800">
-                                    {hospital.provider}
-                                  </Text>
-                                </HStack>
-                                
-                                <VStack spacing={1} align="stretch" fontSize="12px">
-                                  <HStack spacing={1}>
-                                    <MapPin size={12} color="#718096" />
-                                    <Text color="gray.600">
-                                      {hospital.town}, {hospital.category}
-                                    </Text>
-                                  </HStack>
-                                  
-                                  <Text color="gray.600" mt={1} noOfLines={1}>
-                                    {hospital.address}
-                                  </Text>
-                                  
-                                  <HStack spacing={1} mt={1}>
-                                    <FileText size={12} color="#718096" />
-                                    <Text color="gray.600" fontSize="11px">
-                                      Plans: {hospital.planType}
-                                    </Text>
-                                  </HStack>
-                                </VStack>
-                              </Box>
-                            ))}
-                          </VStack>
-                        ) : hospitalSearchQuery.trim().length > 0 ? (
-                          <Box p={4} textAlign="center">
-                            <Text fontSize="13px" color="gray.500">
-                              No hospitals found matching "{hospitalSearchQuery}"
-                            </Text>
-                            <Text fontSize="11px" color="gray.400" mt={1}>
-                              Try searching by state, city, or hospital name
-                            </Text>
-                          </Box>
-                        ) : message.hospitals && message.hospitals.length > 0 ? (
-                          <VStack spacing={2} align="stretch" maxH="400px" overflowY="auto">
-                            <Text fontSize="12px" color="gray.600" fontWeight="500">
-                              Recent results:
-                            </Text>
-                            {message.hospitals.map((hospital, idx) => (
-                              <Box
-                                key={idx}
-                                p={3}
-                                bg="gray.50"
-                                borderRadius="8px"
-                                border="1px solid"
-                                borderColor="gray.200"
-                                _hover={{
-                                  borderColor: "brand.100",
-                                  bg: "green.50",
-                                  transform: "translateY(-2px)",
-                                  boxShadow: "0 4px 12px rgba(0, 191, 99, 0.15)"
-                                }}
-                                transition="all 0.2s"
-                              >
-                                <HStack spacing={2} mb={2}>
-                                  <Building2 size={16} color="#00BF63" />
-                                  <Text fontSize="14px" fontWeight="600" color="gray.800">
-                                    {hospital.provider}
-                                  </Text>
-                                </HStack>
-                                
-                                <VStack spacing={1} align="stretch" fontSize="12px">
-                                  <HStack spacing={1}>
-                                    <MapPin size={12} color="#718096" />
-                                    <Text color="gray.600">
-                                      {hospital.town}, {hospital.category}
-                                    </Text>
-                                  </HStack>
-                                  
-                                  <Text color="gray.600" mt={1} noOfLines={1}>
-                                    {hospital.address}
-                                  </Text>
-                                  
-                                  <HStack spacing={1} mt={1}>
-                                    <FileText size={12} color="#718096" />
-                                    <Text color="gray.600" fontSize="11px">
-                                      Plans: {hospital.planType}
-                                    </Text>
-                                  </HStack>
-                                </VStack>
-                              </Box>
-                            ))}
-                          </VStack>
-                        ) : (
-                          <Box p={4} textAlign="center">
-                            <Text fontSize="13px" color="gray.500">
-                              Start typing to search our hospital network
-                            </Text>
-                            <Text fontSize="11px" color="gray.400" mt={2}>
-                              Search by: Location (Lagos, Abuja), Hospital name, or Plan type
-                            </Text>
-                          </Box>
-                        )}
                       </VStack>
                     )}
                   </VStack>
@@ -758,14 +498,15 @@ const AIChatbot = () => {
                 bg="white"
                 border="1px solid"
                 borderColor="gray.300"
-                color="gray.800"
+                color="brand.200"
                 fontSize="14px"
                 _placeholder={{ color: "gray.500", fontSize: "14px" }}
                 _focus={{
                   borderColor: "brand.100",
-                  boxShadow: "0 0 0 1px #00BF63",
+                  boxShadow: "0 0 0 1px #0B1D3A",
                 }}
                 flex={1}
+                isDisabled={isTyping}
               />
               <IconButton
                 icon={<Send size={18} />}
@@ -773,13 +514,15 @@ const AIChatbot = () => {
                 bg="brand.100"
                 color="white"
                 _hover={{ bg: "brand.600" }}
-                isDisabled={!inputMessage.trim()}
+                isDisabled={!inputMessage.trim() || isTyping}
+                isLoading={isTyping}
                 borderRadius="12px"
+                aria-label="Send message"
               />
             </HStack>
 
             <Text fontSize="10px" color="gray.500" mt={2} textAlign="center">
-              Powered by Greenshield AI • Available 24/7
+              Powered by MB Law AI • Available 24/7
             </Text>
           </Box>
         </Box>

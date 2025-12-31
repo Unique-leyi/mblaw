@@ -37,8 +37,9 @@ import { FaSearch } from "react-icons/fa";
 import ContainerLayout from "../../ui/layouts/ContainerLayout";
 import MiniHeading from "../../ui/MiniHeading";
 import Pagination from "../../ui/Pagination";
-import { blogData } from "../../data/BlogData";
 import { GoClock } from "react-icons/go";
+import { usePublishedBlogPosts } from "./usePublishedBlogPosts";
+import { Spinner } from "@chakra-ui/react";
 
 
 function Blogs() {
@@ -47,15 +48,18 @@ function Blogs() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
+  // Fetch published blog posts
+  const { blogPosts: allBlogPosts, isLoading } = usePublishedBlogPosts();
+
   // Get unique blog types for filter
   const blogTypes = useMemo(() => {
-    const types = ["All", ...new Set(blogData.map(blog => blog.type))];
+    const types = ["All", ...new Set(allBlogPosts.map(blog => blog.type))];
     return types;
-  }, []);
+  }, [allBlogPosts]);
 
   // Filter and search blogs
   const filteredBlogs = useMemo(() => {
-    let filtered = blogData;
+    let filtered = allBlogPosts;
 
     // Filter by type
     if (selectedFilter !== "All") {
@@ -67,13 +71,14 @@ function Blogs() {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(blog => 
         blog.title.toLowerCase().includes(query) ||
-        blog.content.toLowerCase().includes(query) ||
+        (blog.content && blog.content.toLowerCase().includes(query)) ||
+        (blog.excerpt && blog.excerpt.toLowerCase().includes(query)) ||
         blog.type.toLowerCase().includes(query)
       );
     }
 
     return filtered;
-  }, [searchQuery, selectedFilter]);
+  }, [searchQuery, selectedFilter, allBlogPosts]);
 
   // Paginate filtered blogs
   const paginatedBlogs = useMemo(() => {
@@ -93,6 +98,27 @@ function Blogs() {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Get featured blog post
+  const featuredPost = allBlogPosts.find(post => post.isFeatured) || allBlogPosts[0];
+
+  if (isLoading) {
+    return (
+      <Stack
+        w="full"
+        justify="center"
+        align="center"
+        py={["4rem", "4rem", "6rem"]}
+        bgColor="white"
+      >
+        <ContainerLayout>
+          <VStack py="40px">
+            <Spinner size="lg" color="brand.100" />
+          </VStack>
+        </ContainerLayout>
+      </Stack>
+    );
+  }
 
   return (
     <Stack
@@ -121,14 +147,16 @@ function Blogs() {
                   justify="center"
                   align="center"
                 >
-                  <Image
-                    w="full"
-                    h={["full", "full", "431px"]}
-                    src="https://res.cloudinary.com/doqvfemo3/image/upload/v1762791486/MbLaw/651d4e6f4532e507d365c1e284956a7a018d534e_tiqtn7.jpg"
-                    alt="featured-img-post"
-                    objectFit="cover"
-                    rounded="20px"
-                  />
+                  {featuredPost?.image && (
+                    <Image
+                      w="full"
+                      h={["full", "full", "431px"]}
+                      src={featuredPost.image}
+                      alt="featured-img-post"
+                      objectFit="cover"
+                      rounded="20px"
+                    />
+                  )}
 
                 </VStack>
 
@@ -161,7 +189,7 @@ function Blogs() {
                         color="brand.100"
                         letterSpacing="0%"
                     >
-                      Your Rights, Your Voice: Understanding Client Empowerment in Modern Law
+                      {featuredPost?.title || "Featured Blog Post"}
                     </Heading>
 
                     <Text
@@ -171,23 +199,25 @@ function Blogs() {
                         color="brand.200"
                         letterSpacing="0%"
                     >
-                        Fashola Kunle is the founding partner of MB Law and a distinguished legal practitioner with over 15 years of experience in corporate, immigration, and family law. Known for her integrity, strategic thinking, and client-first approach, she leads the firm’s vision of delivering modern, secure, and efficient legal services.
+                        {featuredPost?.excerpt || featuredPost?.content?.substring(0, 200) || "No content available"}
                     </Text>
 
-                    <Link to={`/blog`}>
-                      <Button
-                        variant="link"
-                        color="brand.100"
-                        mt="15px"
-                        textTransform="uppercase"
-                        textDecoration="underline"
-                        _hover={{
-                            textDecoration:"none"
-                        }}
-                      >
-                          Read More
-                      </Button>
-                    </Link>
+                    {featuredPost && (
+                      <Link to={`/blog/post-detail/${encodeURIComponent(featuredPost.slug || featuredPost.title?.toLowerCase())}`}>
+                        <Button
+                          variant="link"
+                          color="brand.100"
+                          mt="15px"
+                          textTransform="uppercase"
+                          textDecoration="underline"
+                          _hover={{
+                              textDecoration:"none"
+                          }}
+                        >
+                            Read More
+                        </Button>
+                      </Link>
+                    )}
                     
                 </VStack>
 
@@ -248,6 +278,7 @@ function Blogs() {
                       border="1px solid"
                       borderColor="gray.300"
                       rounded="8px"
+                      color="brand.200"
                       _focus={{
                         borderColor: "brand.100",
                         boxShadow: "0 0 0 1px brand.100"
@@ -352,7 +383,7 @@ function Blogs() {
                                 align="start"
                                 gap="20px"
                               > 
-                                <Link to={`/blog/post-detail/${encodeURIComponent(post?.title?.toLowerCase())}`}>
+                                <Link to={`/blog/post-detail/${encodeURIComponent(post?.slug || post?.title?.toLowerCase())}`}>
                                   <Heading
                                     fontSize={["20px", "20px", "28px"]}
                                     fontWeight={700}
@@ -373,7 +404,7 @@ function Blogs() {
                                     lineHeight="24px"
                                     letterSpacing="0%"
                                   >
-                                      {post.content}
+                                      {post.excerpt || post.content?.substring(0, 150) || "No content available"}
                                   </Text>
 
                                   <HStack
@@ -389,7 +420,9 @@ function Blogs() {
                                           letterSpacing="0%"
                                           color="#121416CF"
                                       >
-                                          {post.dateOfPost} 
+                                          {post.publishedDate 
+                                            ? new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                                            : "Not published"} 
 
                                       </Text>
 
@@ -410,7 +443,7 @@ function Blogs() {
                                               letterSpacing="0%"
                                               color="#121416CF"
                                           >
-                                              {post.time}
+                                              {post.readTime || "5 minute read"}
                                           </Text>
                                       </HStack>
 

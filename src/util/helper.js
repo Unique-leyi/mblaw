@@ -193,33 +193,6 @@ export const getStoredTokens = () => {
   };
 
 
-export const saveCartItems = (cartItems) => {
-  const encryptedCartItems = encryptData(cartItems);
-  localStorage.setItem("C_I", JSON.stringify(encryptedCartItems));
-};
-
-export const getStoredCartItems = () => {
-
-  const encryptedCartItems = localStorage.getItem("C_I");
-  
-  const cartItems = encryptedCartItems
-    ? decryptData(JSON.parse(encryptedCartItems))
-    : [];
-  return {
-    cartItems: Array.isArray(cartItems) ? cartItems : [],
-  };
-};
-
-export const removeCartItem = (itemId, variant) => {
-
-  const { cartItems } = getStoredCartItems();
-
-  const updatedCartItems = cartItems.filter(
-    (item) => !(item.id === itemId && item.variant === variant)
-  );
-  saveCartItems(updatedCartItems);
-};
-
 
 export const saveToLocalStorage = (key, data) => {
   try {
@@ -253,7 +226,7 @@ export const clearTokens = () => {
 };
 
 export const redirectToLogin = () => {
-    window.location.href = "/sign-in";
+    window.location.href = "/login";
     clearTokens();
 };
 

@@ -31,22 +31,31 @@ import {
   Textarea,
   Checkbox,
   FormErrorMessage,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import { useLocation, Link, NavLink } from "react-router-dom";
+import { FiCheckCircle } from "react-icons/fi";
 import ContainerLayout from "../../ui/layouts/ContainerLayout";
 import CtaButton from "../../ui/CtaButton";
 import MiniHeading from "../../ui/MiniHeading";
 import { useForm } from "react-hook-form";
+import { useSubmitContact } from "./useSubmitContact";
 
 
 function ContactSection() {
+  const { submit, isLoading } = useSubmitContact();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-
-      const {
-          handleSubmit,
-          register,
-          formState: { errors, isSubmitting },
-      } = useForm();
+  const {
+      handleSubmit,
+      register,
+      formState: { errors, isSubmitting },
+      reset,
+  } = useForm();
   
     const inputs = [
       {
@@ -82,18 +91,17 @@ function ContactSection() {
         name: "phone",
         placeholder: "Enter your phone number",
         validation: {
-          required: "Phone Number is required",
-          minLength: {
-            value: 11,
-            message: "Phone Number must be at least 11 characters",
+          validate: (value) => {
+            if (!value || value.trim() === "") return true; // Optional field
+            if (value.trim().length < 10) return "Phone number must be at least 10 digits";
+            return true;
           },
-          validate: (value) => value.trim() !== "" || "Phone Number cannot be empty",
         },
       },
       {
         type: "text",
         element: "textarea",
-        label: "Subject / Iniquiry Type",
+        label: "Message",
         col: 12,
         name: "message",
         placeholder: "Enter your message or question here",
@@ -105,7 +113,12 @@ function ContactSection() {
     ];
   
     const handleSendContact = (data) => {
-      console.log(data);
+      submit(data, {
+        onSuccess: () => {
+          reset();
+          onOpen();
+        },
+      });
     };
 
 
@@ -210,7 +223,7 @@ function ContactSection() {
                                 rounded="10px"
                                 border="2px solid"
                                 bg="transparent"
-                                color="brand.500"
+                                color="brand.200"
                                 fontSize={[18, 18, 20]}
                                 fontWeight={300}
                                 lineHeight="40px"
@@ -240,7 +253,7 @@ function ContactSection() {
                                 rounded="20px"
                                 border="2px solid"
                                 bg="transparent"
-                                color="brand.500"
+                                color="brand.200"
                                 fontSize={[18, 18, 20]}
                                 fontWeight={300}
                                 lineHeight="40px"
@@ -248,7 +261,7 @@ function ContactSection() {
                                 _placeholder={{
                                   fontSize: [18, 18, 20],
                                   fontWeight: 300,
-                                  color: "brand.500",
+                                  color: "brand.200",
                                   lineHeight: "40px",
                                   letterSpacing: "0%",
                                 }}
@@ -268,8 +281,8 @@ function ContactSection() {
                       <CtaButton
                         isFull={true}
                         isLink={false}
-                        isDisabled={isSubmitting}
-                        isLoading={isSubmitting}
+                        isDisabled={isSubmitting || isLoading}
+                        isLoading={isSubmitting || isLoading}
                         btnText="Submit Form"
                         handleClick={handleSubmit(handleSendContact)}
                       />
@@ -284,6 +297,142 @@ function ContactSection() {
             </VStack>
         </ContainerLayout>
 
+        {/* Thank You Modal */}
+        <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg" zIndex={10000}>
+          <ModalOverlay bg="blackAlpha.600" backdropFilter="blur(4px)" />
+          <ModalContent
+            mx="20px"
+            rounded="24px"
+            overflow="hidden"
+            boxShadow="0 20px 60px rgba(0, 0, 0, 0.3)"
+          >
+            <ModalCloseButton
+              color="brand.200"
+              _hover={{ color: "brand.100", bg: "transparent" }}
+              size="lg"
+              top="20px"
+              right="20px"
+            />
+            <ModalBody p="0">
+              <VStack
+                w="full"
+                align="center"
+                justify="center"
+                py="60px"
+                px="40px"
+                bg="white"
+                gap="24px"
+              >
+                {/* Success Icon */}
+                <Box
+                  w="80px"
+                  h="80px"
+                  rounded="full"
+                  bgGradient="linear(to-br, #10B981, #059669)"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  boxShadow="0 8px 24px rgba(16, 185, 129, 0.3)"
+                  animation="pulse 2s infinite"
+                >
+                  <Icon as={FiCheckCircle} boxSize="40px" color="white" />
+                </Box>
+
+                {/* Thank You Message */}
+                <VStack gap="12px" align="center" textAlign="center">
+                  <Heading
+                    fontSize={["24px", "28px", "32px"]}
+                    fontWeight={700}
+                    color="brand.100"
+                    lineHeight="40px"
+                  >
+                    Thank You!
+                  </Heading>
+                  <Text
+                    fontSize={["16px", "18px", "20px"]}
+                    color="brand.200"
+                    fontWeight={400}
+                    lineHeight="28px"
+                    maxW="400px"
+                  >
+                    We've received your message and appreciate you taking the time to reach out to us.
+                  </Text>
+                </VStack>
+
+                {/* Additional Info */}
+                <VStack
+                  gap="16px"
+                  align="start"
+                  w="full"
+                  bg="brand.800"
+                  p="24px"
+                  rounded="16px"
+                  border="1px solid"
+                  borderColor="#E5E7EB"
+                >
+                  <Text
+                    fontSize="14px"
+                    color="brand.200"
+                    fontWeight={500}
+                    lineHeight="20px"
+                  >
+                    What happens next?
+                  </Text>
+                  <VStack align="start" gap="12px" w="full">
+                    <HStack align="start" gap="12px">
+                      <Box
+                        w="6px"
+                        h="6px"
+                        rounded="full"
+                        bg="brand.100"
+                        mt="8px"
+                        flexShrink={0}
+                      />
+                      <Text fontSize="14px" color="brand.200" lineHeight="22px">
+                        Our team will review your inquiry within 24-48 hours
+                      </Text>
+                    </HStack>
+                    <HStack align="start" gap="12px">
+                      <Box
+                        w="6px"
+                        h="6px"
+                        rounded="full"
+                        bg="brand.100"
+                        mt="8px"
+                        flexShrink={0}
+                      />
+                      <Text fontSize="14px" color="brand.200" lineHeight="22px">
+                        You'll receive a confirmation email shortly
+                      </Text>
+                    </HStack>
+                    <HStack align="start" gap="12px">
+                      <Box
+                        w="6px"
+                        h="6px"
+                        rounded="full"
+                        bg="brand.100"
+                        mt="8px"
+                        flexShrink={0}
+                      />
+                      <Text fontSize="14px" color="brand.200" lineHeight="22px">
+                        We'll respond to your inquiry via email or phone
+                      </Text>
+                    </HStack>
+                  </VStack>
+                </VStack>
+
+                {/* Close Button */}
+                <CtaButton
+                  isFull={true}
+                  isLink={false}
+                  btnText="Close"
+                  handleClick={onClose}
+                  isReverse={false}
+                />
+              </VStack>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
     </Stack>
   )
 }

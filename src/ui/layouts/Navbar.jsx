@@ -60,6 +60,11 @@ function Navbar({ isWhite = false }) {
       };
     }, []);
 
+    // Determine if navbar should use white theme (only when isWhite is true AND not scrolled)
+    const shouldUseWhiteTheme = isWhite && !isScrolled;
+    // Body background color (typically white or #f9fafb)
+    const bodyBgColor = "white";
+
   return (
     <>
     {isDesktop ?
@@ -68,11 +73,12 @@ function Navbar({ isWhite = false }) {
             justify="start"
             align="start"
             position="fixed"
-            bgColor={isWhite ? "transparent" : "#f9fafb"}
+            bgColor={isWhite ? (isScrolled ? bodyBgColor : "transparent") : "#f9fafb"}
             top={0}
             left={0}
             zIndex={9999999999}
             py="12px"
+            transition="background-color 0.3s ease"
         >
             <ContainerLayout>    
                 <HStack
@@ -81,7 +87,7 @@ function Navbar({ isWhite = false }) {
                     align="center"
                 >
                     <Box w="fit-content">
-                        <AppLogo isWhite={isWhite}/>
+                        <AppLogo isWhite={shouldUseWhiteTheme}/>
                     </Box>
 
 
@@ -103,10 +109,10 @@ function Navbar({ isWhite = false }) {
                                         <Text
                                             fontSize={20}
                                             fontWeight={300}
-                                            color={isWhite ? "white" : (item.id === id ? "brand.100" : "brand.200")}
+                                            color={shouldUseWhiteTheme ? "white" : (item.id === id ? "brand.100" : "brand.200")}
                                             lineHeight="24px"
                                             letterSpacing="0%"
-                                            _hover={{ color: isWhite ? "white" : "brand.100" }}
+                                            _hover={{ color: shouldUseWhiteTheme ? "white" : "brand.100" }}
                                         >
                                             {item.display}
                                         </Text>
@@ -120,14 +126,14 @@ function Navbar({ isWhite = false }) {
                             btnText="Contact us"
                             isOutline={true}
                             url="/contact-us"
-                            borderColor={isWhite ? "white" : undefined}
-                            color={isWhite ? "white" : undefined}
+                            borderColor={shouldUseWhiteTheme ? "white" : undefined}
+                            color={shouldUseWhiteTheme ? "white" : undefined}
                         />
 
                         <Link to="/login">
                             <IconButton
                                 aria-label="Search database"
-                                color={isWhite ? "white" : "brand.100"}
+                                color={shouldUseWhiteTheme ? "white" : "brand.100"}
                                 bgColor="transparent"
                                 icon={<Icon as={RiAccountCircleFill} w={12} h={12} />}
                                 _hover={{ bgColor: "transparent" }}

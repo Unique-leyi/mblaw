@@ -67,10 +67,8 @@ const Footer = () => {
               align="start"
               spacing={['24px', '28px', '32px', '40px']}
             >
-              {/* Logo */}
-              <Box>
-                <AppLogo isWhite={true} />
-              </Box>
+              {/* Logo with white border */}
+              <AppLogo isWhite={true} />
 
               {/* Description */}
               <Text
@@ -124,18 +122,19 @@ const Footer = () => {
                     <Box
                       w={['44px', '48px', '52px', '56px']}
                       h={['44px', '48px', '52px', '56px']}
-                      bgColor="white"
+                      border="1px solid white"
                       rounded="full"
                       display="flex"
                       alignItems="center"
                       justifyContent="center"
-                      color="brand.100"
+                      bgColor="transparent"
                     >
                       <Box
                         as={social.icon}
                         fontSize={['20px', '22px', '24px']}
                         w={['20px', '22px', '24px']}
                         h={['20px', '22px', '24px']}
+                        color="white"
                       />
                     </Box>
                   </Link>
@@ -163,7 +162,7 @@ const Footer = () => {
                 <Text
                   fontSize={['14px', '15px', '16px']}
                   fontWeight={400}
-                  color="rgba(255, 255, 255, 0.8)"
+                  color="white"
                   lineHeight="24px"
                   fontFamily="body"
                 >
@@ -172,7 +171,7 @@ const Footer = () => {
                 <Text
                   fontSize={['14px', '15px', '16px']}
                   fontWeight={400}
-                  color="rgba(255, 255, 255, 0.8)"
+                  color="white"
                   lineHeight="24px"
                   fontFamily="body"
                 >
@@ -194,7 +193,7 @@ const Footer = () => {
                 <Text
                   fontSize={['14px', '15px', '16px']}
                   fontWeight={400}
-                  color="rgba(255, 255, 255, 0.8)"
+                  color="white"
                   lineHeight={['22px', '24px', '26px']}
                   maxW="400px"
                   fontFamily="body"
@@ -219,13 +218,13 @@ const Footer = () => {
                     <Text
                       key={index}
                       fontSize={['14px', '15px', '16px']}
-                      fontWeight={lang === 'En' ? 600 : 400}
-                      color={lang === 'En' ? 'white' : 'rgba(255, 255, 255, 0.8)'}
+                      fontWeight={lang === 'En' ? 700 : 400}
+                      color="white"
                       lineHeight="100%"
                       cursor="pointer"
                       fontFamily="body"
                       _hover={{
-                        color: 'white',
+                        opacity: 0.8,
                       }}
                       transition="all 0.2s"
                     >
@@ -237,17 +236,17 @@ const Footer = () => {
             </VStack>
           </SimpleGrid>
 
-          {/* Copyright - Bottom Center */}
+          {/* Copyright - Bottom with Divider */}
           <Box
             w="full"
             pt={['24px', '28px', '32px', '40px']}
-            borderTop="1px solid rgba(255, 255, 255, 0.15)"
+            borderTop="1px solid rgba(255, 255, 255, 0.2)"
           >
-            <VStack align={['start', 'start', 'center']} spacing="4px">
+            <VStack align={['start', 'start', 'start']} spacing="4px">
               <Text
                 fontSize={['12px', '13px', '14px']}
                 fontWeight={400}
-                color="rgba(255, 255, 255, 0.7)"
+                color="rgba(255, 255, 255, 0.8)"
                 lineHeight="140%"
                 fontFamily="body"
               >
@@ -256,7 +255,7 @@ const Footer = () => {
               <Text
                 fontSize={['12px', '13px', '14px']}
                 fontWeight={400}
-                color="rgba(255, 255, 255, 0.7)"
+                color="rgba(255, 255, 255, 0.8)"
                 lineHeight="140%"
                 fontFamily="body"
               >

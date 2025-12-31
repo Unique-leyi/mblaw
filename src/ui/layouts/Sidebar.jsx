@@ -5,119 +5,146 @@ import {
   ListItem,
   UnorderedList,
   VStack,
+  Text,
 } from "@chakra-ui/react";
-import { NavLink, useLocation } from "react-router-dom";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { SidebarData } from "../../data/SidebarData";
-import LightLogo from "./LightLogo";
-import RoleBasedDisplay from "../RoleBasedDisplay";
 import { redirectToLogin } from "../../util/helper";
-
+import RoleBasedDisplay from "../RoleBasedDisplay";
+import AppLogo from "./AppLogo";
 
 function Sidebar() {
+  
 
-
-  const [option, setOption] = useState(false);
   const location = useLocation();
-  const match = location.pathname.match(/\/dashboard(?:\/([^/]+))?/);
-  const id = match ? match[1] || "" : null;
-
-  const getNavItemStyle = (itemId) => {
-    if (id === "forms") {
-      return {};
+  
+  // Check for dashboard routes
+  const dashboardMatch = location.pathname.match(/\/dashboard(?:\/([^/]+))?(?:\/([^/]+))?/);
+  // Check for my-account routes
+  const myAccountMatch = location.pathname.match(/\/my-account(?:\/([^/]+))?(?:\/([^/]+))?/);
+  
+  let id = null;
+  if (dashboardMatch) {
+    id = dashboardMatch[1] || "";
+    // Handle nested routes like /dashboard/clients/create or /dashboard/clients/:id/edit
+    if (id === "clients" && dashboardMatch[2]) {
+      id = "clients"; // Keep id as "clients" for nested routes
     }
-
-    if (itemId === id) {
-      return {
-        bg: "#F5F5F9",
-        color: "brand.100",
-        roundedTopLeft: "full",
-        roundedBottomLeft: "full",
-        className: "curve",
-      };
+  } else if (myAccountMatch) {
+    // Map my-account routes to sidebar IDs
+    const pathSegment = myAccountMatch[1];
+    if (!pathSegment) {
+      id = "my-account-overview";
+    } else if (pathSegment === "consultations") {
+      id = "my-consultations";
+    } else if (pathSegment === "appointments") {
+      id = "my-appointments";
+    } else if (pathSegment === "settings") {
+      id = "my-settings";
     }
-    return {};
-  };
+  }
 
   const logout = () => {
-    redirectToLogin()
-  }
+    redirectToLogin();
+  };
 
   return (
     <VStack
-      w="28%"
+      w="25%"
       justify="space-between"
       align="right"
-      bg="brand.100"
-      color="white"
+      bg="white"
       fontWeight="600"
-      pl="20px"
-      py="50px"
+      pt="30px"
       h="100vh"
       overflowY="auto"
-      minH="100vh"
+      overflowX="hidden"
       position="sticky"
       top="0"
     >
-      <VStack gap="50px" w="full">
-        <HStack w="full" align="left">
-          <LightLogo />
-        </HStack>
+      <VStack gap="20px" justify="center" align="center">
+        <VStack gap="40px" justify="center" align="center">
+          <AppLogo />
+        </VStack>
 
-        <UnorderedList m="0" listStyleType="none" w="full">
+        <UnorderedList
+          m="4px"
+          mt="20px"
+          listStyleType="none"
+          w="full"
+          gap="20px"
+          p="0"
+        >
           {SidebarData.map((item, i) => (
-            <RoleBasedDisplay key={i} roles={item.roles}>
-              <Box position="relative">
-                <NavLink to={item.id === "forms" ? null : item.link} onClick={item?.title === "Logout" && logout}>
-                  <ListItem
-                    onClick={() => {
-                      item.id === "forms"
-                        ? setOption((prev) => !prev)
-                        : setOption(false);
-                    }}
-                    gap="40px"
-                    py="20px"
-                    px="32px"
-                    roundedTopLeft="full"
-                    roundedBottomLeft="full"
+            <RoleBasedDisplay  key={i} roles={item.roles}>
+              <Box position="relative" my="12px">
+                <NavLink 
+                  to={item.link}
+                  onClick={(e) => {
+                    if (item?.title === "Logout") {
+                      console.log("Logging out...", item.title);
+                      e.preventDefault(); 
+                      logout();
+                    }
+                  }}
+                >
+                  <HStack
                     w="full"
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    {...getNavItemStyle(item.id)}
+                    justify="space-between"
+                    align="start"
+                    gap="12px"
+                    role="group"
                   >
-                    <HStack gap="20px">
-                      {item.icon}
-                      <Box>{item.title}</Box>
-                    </HStack>
-                    {item?.sub?.length > 0 && <ChevronDownIcon />}
-                  </ListItem>
-                  {option && item?.sub?.length > 0 && (
-                    <UnorderedList m="0" listStyleType="none" w="full">
-                      {item.sub.map((subs, i) => (
-                        <Box key={i} bg="#F5F5F9">
-                          <NavLink to={subs.link}>
-                            <ListItem
-                              gap="40px"
-                              py="16px"
-                              px="32px"
-                              w="full"
-                              color="brand.100"
-                              borderRightWidth={
-                                location.pathname === subs.link && "4px"
-                              }
-                              borderRightColor={
-                                location.pathname === subs.link && "brand.200"
-                              }
-                            >
-                              {subs.title}
-                            </ListItem>
-                          </NavLink>
-                        </Box>
-                      ))}
-                    </UnorderedList>
-                  )}
+                    <Box
+                      position="relative"
+                      h="55px"
+                      _before={{
+                        content: '" "',
+                        w: id === item.id ? "9px" : 0,
+                        h: "inherit",
+                        position: "absolute",
+                        top: 0,
+                        left: "-4px",
+                        bgColor: "brand.100",
+                        zIndex: 1,
+                        roundedRight: "6px",
+                      }}
+                      _groupHover={{
+                        _before: {
+                          w: "9px",
+                        },
+                      }}
+                    />
+
+                    <ListItem
+                      gap="10px"
+                      py="15px"
+                      px="15px"
+                      w="full"
+                      mb="4px"
+                      bg={id === item.id ? "brand.100" : "transparent"}
+                      color={id === item.id ? "white" : "black"}
+                      rounded={id === item.id ? "6px" : ""}
+                      _groupHover={{
+                        bg: "brand.100",
+                        color: "white",
+                        rounded: "6px",
+                      }}
+                    >
+                      <HStack gap="10px" align="center" maxW="100%">
+                        {item.icon}
+                        <Text
+                          fontSize="16px"
+                          fontWeight="400"
+                          whiteSpace="nowrap"
+                          overflow="hidden"
+                          textOverflow="ellipsis"
+                        >
+                          {item.title}
+                        </Text>
+                      </HStack>
+                    </ListItem>
+                  </HStack>
                 </NavLink>
               </Box>
             </RoleBasedDisplay>

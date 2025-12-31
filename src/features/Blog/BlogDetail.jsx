@@ -1,20 +1,70 @@
 import React from 'react'
-import { Stack, VStack, Text, Heading, SimpleGrid, Image, HStack, Icon, Badge, IconButton, Box } from '@chakra-ui/react'
+import { Stack, VStack, Text, Heading, SimpleGrid, Image, HStack, Icon, Badge, IconButton, Box, Spinner } from '@chakra-ui/react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import ContainerLayout from '../../ui/layouts/ContainerLayout'
 import MiniHeading from '../../ui/MiniHeading'
-import { practiceAreaData } from '../../data/PracticeAreaData'
+import { useBlogPostBySlug } from './useBlogPostBySlug'
+import { usePublishedBlogPosts } from './usePublishedBlogPosts'
 import { FaArrowLeftLong, FaArrowRightLong, FaFacebookF, FaInstagram } from 'react-icons/fa6'
 import { BiLogoGmail } from 'react-icons/bi'
-import { blogData } from '../../data/BlogData'
 import { GoClock } from 'react-icons/go'
 
 function BlogDetail() {
 
   const { slug } = useParams();
   const navigate = useNavigate();
+  const normalizedSlug = decodeURIComponent(slug || '').trim();
+  
+  const { blogPost, isLoading } = useBlogPostBySlug(normalizedSlug);
+  const { blogPosts } = usePublishedBlogPosts();
+  
+  // Get related posts (exclude current post, limit to 3)
+  const relatedPosts = blogPosts
+    .filter(post => post.id !== blogPost?.id && post.status === 'published')
+    .slice(0, 3);
 
-  const normalizedSlug = decodeURIComponent(slug || '').toLowerCase().trim();
+  if (isLoading) {
+    return (
+      <Stack
+        w="full"
+        justify="center"
+        align="center"
+        pt={["6rem", "6rem", "8rem"]}
+        pb={["2rem", "2rem", "4rem"]}
+      >
+        <ContainerLayout>
+          <VStack py="40px">
+            <Spinner size="lg" color="brand.100" />
+          </VStack>
+        </ContainerLayout>
+      </Stack>
+    );
+  }
+
+  if (!blogPost) {
+    return (
+      <Stack
+        w="full"
+        justify="center"
+        align="center"
+        pt={["6rem", "6rem", "8rem"]}
+        pb={["2rem", "2rem", "4rem"]}
+      >
+        <ContainerLayout>
+          <VStack py="40px" gap="20px">
+            <Text fontSize="18px" color="brand.200">
+              Blog post not found
+            </Text>
+            <Link to="/blog">
+              <Text color="brand.100" textDecoration="underline">
+                Back to Blogs
+              </Text>
+            </Link>
+          </VStack>
+        </ContainerLayout>
+      </Stack>
+    );
+  }
 
 //   const filteredPracticeAreaDetail = practiceAreaData.find(detail => {
 //     if (!detail?.title) return false;
@@ -76,14 +126,16 @@ function BlogDetail() {
             align="center"
             gap="20px"
         >
-            <Badge
-                textTransform="normal"
-                py="9px"
-                px="20px"
-                bgColor="gray.100"
-            >
-                Featured
-            </Badge>
+            {blogPost.isFeatured && (
+              <Badge
+                  textTransform="normal"
+                  py="9px"
+                  px="20px"
+                  bgColor="gray.100"
+              >
+                  Featured
+              </Badge>
+            )}
 
             <VStack
                 w="full"
@@ -100,7 +152,7 @@ function BlogDetail() {
                     letterSpacing="0%"
                     textAlign="center"
                 >
-                    Your Rights, Your Voice: Understanding Client Empowerment in Modern Law
+                    {blogPost.title}
                 </Heading>
 
                 <HStack
@@ -128,7 +180,7 @@ function BlogDetail() {
                             letterSpacing="0%"
                             textTransform="uppercase"
                         >
-                            Josiah Jones
+                            {blogPost.author}
                         
                         </Text>
                     </Text>
@@ -153,7 +205,9 @@ function BlogDetail() {
                         letterSpacing="0%"
                         textTransform="uppercase"
                     > 
-                        2 July, 2025
+                        {blogPost.publishedDate 
+                          ? new Date(blogPost.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                          : "Not published"}
                     </Text>
 
 
@@ -175,7 +229,7 @@ function BlogDetail() {
                         letterSpacing="0%"
                         textTransform="uppercase"
                     >
-                        2 mins read
+                        {blogPost.readTime || "5 minute read"}
                     </Text>
 
                 </HStack>
@@ -197,73 +251,119 @@ function BlogDetail() {
             align="center"
             gap="40px"
           >
+                {(() => {
+                  // Ensure paragraphs is an array - handle both parsed JSON and string JSON
+                  let paragraphs = [];
+                  if (blogPost.paragraphs) {
+                    if (Array.isArray(blogPost.paragraphs)) {
+                      paragraphs = blogPost.paragraphs;
+                    } else if (typeof blogPost.paragraphs === 'string') {
+                      try {
+                        paragraphs = JSON.parse(blogPost.paragraphs);
+                      } catch (e) {
+                        console.error('Error parsing paragraphs:', e);
+                        paragraphs = [];
+                      }
+                    }
+                  }
+                  
+                  if (paragraphs && paragraphs.length > 0) {
+                    return paragraphs.map((paragraph, index) => (
+                      <VStack key={index} w={["full", "full", "80%"]} align="start" gap="20px">
+                        {paragraph.title && (
+                          <Heading
+                            fontSize={["24px", "28px", "32px"]}
+                            fontWeight={700}
+                            color="brand.100"
+                            letterSpacing="0%"
+                          >
+                            {paragraph.title}
+                          </Heading>
+                        )}
 
-                <Text
-                    fontSize={["16px", "16px", "18px"]}
-                    fontWeight={300}
-                    lineHeight="28px"
-                    color="brand.200"
-                    letterSpacing="0%"
-                    w={["full", "full", "80%"]}
-                >
-                    <Text
-                      as="span"
-                      fontSize={["30px", "36px", "70px"]}
-                      fontWeight={400}
-                      lineHeight="28px"
-                      color="brand.200"
-                      letterSpacing="0%"
-                    >
-                        A
-                    </Text>t MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs. At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs.At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs.
-                   
-                </Text>
+                        {paragraph.content && (
+                          <Text
+                            fontSize={["16px", "16px", "18px"]}
+                            fontWeight={300}
+                            lineHeight="28px"
+                            color="brand.200"
+                            letterSpacing="0%"
+                            whiteSpace="pre-wrap"
+                          >
+                            {paragraph.content}
+                          </Text>
+                        )}
 
+                        {paragraph.image && (
+                          <VStack w="full" align="start" gap="8px">
+                            <Image
+                              w="full"
+                              h="full"
+                              src={paragraph.image}
+                              alt={paragraph.imageCaption || paragraph.title || `Image ${index + 1}`}
+                              objectFit="cover"
+                              rounded="20px"
+                            />
+                            {paragraph.imageCaption && (
+                              <Text
+                                fontSize="14px"
+                                fontWeight={400}
+                                color="brand.200"
+                                fontStyle="italic"
+                                textAlign="center"
+                                w="full"
+                              >
+                                {paragraph.imageCaption}
+                              </Text>
+                            )}
+                          </VStack>
+                        )}
+                      </VStack>
+                    ));
+                  } else if (blogPost.content) {
+                    return (
+                      <Text
+                        fontSize={["16px", "16px", "18px"]}
+                        fontWeight={300}
+                        lineHeight="28px"
+                        color="brand.200"
+                        letterSpacing="0%"
+                        w={["full", "full", "80%"]}
+                        whiteSpace="pre-wrap"
+                      >
+                        {blogPost.content}
+                      </Text>
+                    );
+                  }
+                  return null;
+                })()}
 
-                <Image
-                  w="full"
-                  h="full"
-                  src="https://res.cloudinary.com/doqvfemo3/image/upload/v1762862017/MbLaw/3c463cf194a999a059330bebb75323363cdeb0b7_t2ltdm.jpg"
-                  alt="post-detail-img-1"
-                  objectFit="cover"
-                  rounded="20px"
-                />
-
-
-
-                <Text
-                    fontSize={["16px", "16px", "18px"]}
-                    fontWeight={300}
-                    lineHeight="28px"
-                    color="brand.200"
-                    letterSpacing="0%"
-                    w={["full", "full", "80%"]}
-                >
-                    At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs. At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs.At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs.
-                   
-                </Text>
-
-
-                <Image
-                  w="full"
-                  h="full"
-                  src="https://res.cloudinary.com/doqvfemo3/image/upload/v1762862069/MbLaw/77b9dadf9241f2b1bb7603e47fcf5132bdc608f1_ug3yv8.jpg"
-                  alt="post-detail-img-2"
-                  objectFit="cover"
-                  rounded="20px"
-                />
-
-                <Text
-                    fontSize={["16px", "16px", "18px"]}
-                    fontWeight={300}
-                    lineHeight="28px"
-                    color="brand.200"
-                    letterSpacing="0%"
-                    w={["full", "full", "80%"]}
-                >
-                    At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs. At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs.At MB Law, we are more than a law firm — we are a team of dedicated legal professionals committed to excellence, integrity, and innovation. For years, we have provided individuals, families, and businesses with practical legal solutions tailored to their unique needs.
-                   
-                </Text>
+                {(() => {
+                  // Show featured image only if no paragraphs with images
+                  let paragraphs = [];
+                  if (blogPost.paragraphs) {
+                    if (Array.isArray(blogPost.paragraphs)) {
+                      paragraphs = blogPost.paragraphs;
+                    } else if (typeof blogPost.paragraphs === 'string') {
+                      try {
+                        paragraphs = JSON.parse(blogPost.paragraphs);
+                      } catch (e) {
+                        paragraphs = [];
+                      }
+                    }
+                  }
+                  
+                  return blogPost.image && (!paragraphs || paragraphs.length === 0) && (
+                    <Image
+                      w="full"
+                      h="full"
+                      src={blogPost.image}
+                      alt={blogPost.title}
+                      objectFit="cover"
+                      rounded="20px"
+                    />
+                  );
+                })()}
 
           </VStack>
 
@@ -354,7 +454,7 @@ function BlogDetail() {
                 columns={[1, 1, 3]}
                 gap="20px"
             >
-                {blogData.slice(0, 3).map((post, i) => (
+                {relatedPosts.map((post, i) => (
                     <VStack
                         key={i}
                         w="full"
@@ -373,13 +473,15 @@ function BlogDetail() {
                             roundedTop="20px"
                             overflow="hidden"
                         >
-                            <Image
-                                w="full"
-                                h="full"
-                                src={post.image}
-                                alt={`${post.title}-image`}
-                                objectFit="cover"
-                            />
+                            {post.image && (
+                              <Image
+                                  w="full"
+                                  h="full"
+                                  src={post.image}
+                                  alt={`${post.title}-image`}
+                                  objectFit="cover"
+                              />
+                            )}
 
                         </VStack>
 
@@ -405,15 +507,20 @@ function BlogDetail() {
                             align="start"
                             gap="20px"
                         >
-                            <Heading
-                                fontSize={["20px", "20px", "28px"]}
-                                fontWeight={700}
-                                lineHeight="100%"
-                                letterSpacing="0%"
-                                color="brand.600"
-                            >
-                                {post.title}
-                            </Heading>
+                            <Link to={`/blog/post-detail/${encodeURIComponent(post.slug || post.title?.toLowerCase())}`}>
+                              <Heading
+                                  fontSize={["20px", "20px", "28px"]}
+                                  fontWeight={700}
+                                  lineHeight="100%"
+                                  letterSpacing="0%"
+                                  color="brand.600"
+                                  _hover={{
+                                    textDecoration: "underline"
+                                  }}
+                              >
+                                  {post.title}
+                              </Heading>
+                            </Link>
 
                             <Text
                                 fontSize="18px"
@@ -421,7 +528,7 @@ function BlogDetail() {
                                 lineHeight="24px"
                                 letterSpacing="0%"
                             >
-                                {post.content}
+                                {post.excerpt || post.content?.substring(0, 150) || "No content available"}
                             </Text>
 
                             <HStack
@@ -437,7 +544,9 @@ function BlogDetail() {
                                     letterSpacing="0%"
                                     color="#121416CF"
                                 >
-                                    {post.dateOfPost} 
+                                    {post.publishedDate 
+                                      ? new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                                      : "Not published"} 
 
                                 </Text>
 
@@ -458,7 +567,7 @@ function BlogDetail() {
                                         letterSpacing="0%"
                                         color="#121416CF"
                                     >
-                                        {post.time}
+                                        {post.readTime || "5 minute read"}
                                     </Text>
                                 </HStack>
 

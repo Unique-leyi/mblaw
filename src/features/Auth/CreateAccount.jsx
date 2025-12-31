@@ -1,44 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Box,
-  Flex,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Image,
-  IconButton,
-  Drawer,
-  DrawerBody,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
   VStack,
-  useDisclosure,
   Text,
-  HStack,
-  useBreakpointValue,
-  SimpleGrid,
-  Icon,
   Heading,
-  Stack,
   FormControl,
   Input,
   FormLabel,
-  Select,
-  Textarea,
-  Checkbox,
   FormErrorMessage,
+  InputGroup,
+  InputRightElement,
+  IconButton,
+  Icon,
 } from "@chakra-ui/react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import AuthLayout from "../../ui/layouts/AuthLayout";
 import { useForm } from "react-hook-form";
 import CtaButton from "../../ui/CtaButton";
+import { Link } from "react-router-dom";
+import { useUserRegister } from "./useUserRegister";
 
 
 
 function CreateAccount() {
+    const { register: registerUser, isLoading: isRegistering } = useUserRegister();
 
     const {
         handleSubmit,
@@ -46,8 +30,8 @@ function CreateAccount() {
         watch,
         formState: { errors, isSubmitting },
     } = useForm();
-
-    const password = watch("password");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
  
    const inputs = [
      {
@@ -77,18 +61,18 @@ function CreateAccount() {
        },
      },
      {
-       type: "text",
+       type: "tel",
        element: "input",
        label: "Phone Number (Optional)",
        name: "phone",
        placeholder: "Enter your phone number",
        validation: {
-         required: "Phone Number is required",
-         minLength: {
-           value: 11,
-           message: "Phone Number must be at least 11 characters",
+         required: false,
+         validate: (value) => {
+           if (!value || value.trim() === "") return true; // Optional field
+           if (value.trim().length < 10) return "Phone number must be at least 10 digits";
+           return true;
          },
-         validate: (value) => value.trim() !== "" || "Phone Number cannot be empty",
        },
      },
 
@@ -129,7 +113,13 @@ function CreateAccount() {
    ];
  
    const handleCreateAccount = (data) => {
-     console.log(data);
+     registerUser({
+       firstName: data.fullname.split(' ')[0] || data.fullname,
+       lastName: data.fullname.split(' ').slice(1).join(' ') || '',
+       email: data.email,
+       phone: data.phone || null,
+       password: data.password,
+     });
    };
 
 
@@ -210,64 +200,79 @@ function CreateAccount() {
                     )}
 
                     {input.element === "input" && (
-                        <Input
-                            w="full"
-                            type={input.type}
-                            placeholder={input.placeholder}
-                            size="lg"
-                            h="initial"
-                            py="10px"
-                            px="15px"
-                            rounded="10px"
-                            border="1px solid"
-                            bg="transparent"
-                            color="brand.500"
-                            fontSize={[18, 18, 20]}
-                            fontWeight={300}
-                            lineHeight="40px"
-                            letterSpacing="0%"
-                            _placeholder={{
-                                fontSize: 16,
-                                fontWeight: 300,
-                                color: "brand.200",
-                                lineHeight: "40px",
-                                letterSpacing: "0%",
-                            }}
-                            borderColor="#0000001A"
-                            {...register(input.name, input.validation)}
-                        />
+                        input.type === "password" ? (
+                            <InputGroup>
+                                <Input
+                                    w="full"
+                                    type={input.name === "password" ? (showPassword ? "text" : "password") : (showConfirmPassword ? "text" : "password")}
+                                    placeholder={input.placeholder}
+                                    size="lg"
+                                    h="initial"
+                                    py="10px"
+                                    px="15px"
+                                    pr="50px"
+                                    rounded="10px"
+                                    border="1px solid"
+                                    bg="transparent"
+                                    color="brand.200"
+                                    fontSize={[18, 18, 20]}
+                                    fontWeight={300}
+                                    lineHeight="40px"
+                                    letterSpacing="0%"
+                                    isDisabled={isSubmitting || isRegistering}
+                                    _placeholder={{
+                                        fontSize: 16,
+                                        fontWeight: 300,
+                                        color: "brand.200",
+                                        lineHeight: "40px",
+                                        letterSpacing: "0%",
+                                    }}
+                                    borderColor="#0000001A"
+                                    {...register(input.name, input.validation)}
+                                />
+                                <InputRightElement h="full" pr="10px">
+                                    <IconButton
+                                        aria-label={input.name === "password" ? (showPassword ? "Hide password" : "Show password") : (showConfirmPassword ? "Hide password" : "Show password")}
+                                        icon={<Icon as={input.name === "password" ? (showPassword ? FiEyeOff : FiEye) : (showConfirmPassword ? FiEyeOff : FiEye)} />}
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => input.name === "password" ? setShowPassword(!showPassword) : setShowConfirmPassword(!showConfirmPassword)}
+                                        color="brand.200"
+                                        _hover={{ bg: "transparent" }}
+                                        isDisabled={isSubmitting || isRegistering}
+                                    />
+                                </InputRightElement>
+                            </InputGroup>
+                        ) : (
+                            <Input
+                                w="full"
+                                type={input.type}
+                                placeholder={input.placeholder}
+                                size="lg"
+                                h="initial"
+                                py="10px"
+                                px="15px"
+                                rounded="10px"
+                                border="1px solid"
+                                bg="transparent"
+                                color="brand.200"
+                                fontSize={[18, 18, 20]}
+                                fontWeight={300}
+                                lineHeight="40px"
+                                letterSpacing="0%"
+                                isDisabled={isSubmitting || isRegistering}
+                                _placeholder={{
+                                    fontSize: 16,
+                                    fontWeight: 300,
+                                    color: "brand.200",
+                                    lineHeight: "40px",
+                                    letterSpacing: "0%",
+                                }}
+                                borderColor="#0000001A"
+                                {...register(input.name, input.validation)}
+                            />
+                        )
                     )}
-
-                    {input.element === "textarea" && (
-                        <Textarea
-                            w="full"
-                            rows={4}
-                            type={input.type}
-                            placeholder={input.placeholder}
-                            size="lg"
-                            h="initial"
-                            py="20px"
-                            px="15px"
-                            rounded="20px"
-                            border="1px solid"
-                            bg="transparent"
-                            color="brand.500"
-                            fontSize={[18, 18, 20]}
-                            fontWeight={300}
-                            lineHeight="40px"
-                            letterSpacing="0%"
-                            _placeholder={{
-                                fontSize: [18, 18, 20],
-                                fontWeight: 300,
-                                color: "brand.500",
-                                lineHeight: "40px",
-                                letterSpacing: "0%",
-                            }}
-                            borderColor="#0000001A"
-                            {...register(input.name, input.validation)}
-                        />
-                    )}
-
 
                         <FormErrorMessage>
                             {errors[input.name]?.message}
@@ -279,12 +284,30 @@ function CreateAccount() {
                 <CtaButton
                     isFull={true}
                     isLink={false}
-                    isDisabled={isSubmitting}
-                    isLoading={isSubmitting}
+                    isDisabled={isSubmitting || isRegistering}
+                    isLoading={isSubmitting || isRegistering}
                     btnText="Create Account"
                     handleClick={handleSubmit(handleCreateAccount)}
                 />
             </form>
+
+            <VStack w="full" align="center" mt="20px" gap="10px">
+                <Text fontSize="14px" color="brand.400">
+                    Already have an account?{" "}
+                    <Link
+                        to="/login"
+                        style={{
+                            color: isSubmitting || isRegistering ? "#999" : "#0B1D3A",
+                            fontWeight: 600,
+                            textDecoration: "underline",
+                            pointerEvents: isSubmitting || isRegistering ? "none" : "auto",
+                            cursor: isSubmitting || isRegistering ? "not-allowed" : "pointer",
+                        }}
+                    >
+                        Sign in
+                    </Link>
+                </Text>
+            </VStack>
         </VStack>
 
     </AuthLayout>

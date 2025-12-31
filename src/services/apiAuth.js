@@ -16,8 +16,8 @@ export async function register(data) {
 
     const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
-        headers: { 
-            "Content-Type": "application/json" 
+        headers: {
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
     });
@@ -25,9 +25,9 @@ export async function register(data) {
     const responseData = await response.json();
 
     if (!response.ok) {
-        throw { 
-            status: response.status, 
-            data: responseData 
+        throw {
+            status: response.status,
+            data: responseData
         };
     }
 
@@ -47,11 +47,11 @@ export async function login({ email, password }) {
 
     const response = await fetch(`${API_URL}/auth/login`, {
         method: "POST",
-        headers: { 
-            "Content-Type": "application/json" 
+        headers: {
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify({ 
-            email, 
+        body: JSON.stringify({
+            email,
             password,
         }),
     });
@@ -59,9 +59,9 @@ export async function login({ email, password }) {
     const responseData = await response.json();
 
     if (!response.ok) {
-        throw { 
-            status: response.status, 
-            data: responseData 
+        throw {
+            status: response.status,
+            data: responseData
         };
     }
 
@@ -73,22 +73,22 @@ export async function getCurrentUser() {
 
     const response = await fetchWithAuth(`${API_URL}/auth/get-profile`, {
         method: "GET",
-        headers: { 
-            "Content-Type": "application/json" 
+        headers: {
+            "Content-Type": "application/json"
         },
     });
 
     const responseData = await response.json();
 
     if (!response.ok) {
-        throw { 
-            status: response.status, 
-            data: responseData 
+        throw {
+            status: response.status,
+            data: responseData
         };
     }
 
     return responseData;
-    
+
 }
 
 
@@ -96,32 +96,31 @@ export async function getProfile() {
 
     const response = await fetchWithAuth(`${API_URL}/auth/get-profile`, {
         method: "GET",
-        headers: { 
-            "Content-Type": "application/json" 
+        headers: {
+            "Content-Type": "application/json"
         },
     });
 
     const responseData = await response.json();
 
     if (!response.ok) {
-        throw { 
-            status: response.status, 
-            data: responseData 
+        throw {
+            status: response.status,
+            data: responseData
         };
     }
 
     return responseData;
-    
+
 }
 
 
 
-export async function changePassword(data) {
-
-    const response = await fetchWithAuth(`${API_URL}/auth/change-password`, {
-        method: "POST",
-        headers: { 
-            "Content-Type": "application/json" 
+export async function updateProfile(data) {
+    const response = await fetchWithAuth(`${API_URL}/auth/update-profile`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(data),
     });
@@ -129,9 +128,31 @@ export async function changePassword(data) {
     const responseData = await response.json();
 
     if (!response.ok) {
-        throw { 
-            status: response.status, 
-            data: responseData 
+        throw {
+            status: response.status,
+            data: responseData
+        };
+    }
+
+    return responseData;
+}
+
+export async function changePassword(data) {
+
+    const response = await fetchWithAuth(`${API_URL}/auth/change-password`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data),
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+        throw {
+            status: response.status,
+            data: responseData
         };
     }
 
