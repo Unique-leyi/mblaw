@@ -1,9 +1,10 @@
 import { fetchWithAuth } from "./fetchWithAuth";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
+const API_URL = import.meta.env.VITE_BASE_URL;
 
 export const getDashboardStats = async () => {
-    const response = await fetchWithAuth(`${API_BASE_URL}/dashboard/stats`, {
+
+    const response = await fetchWithAuth(`${API_URL}/dashboard/stats`, {
         method: "GET",
     });
 
@@ -19,7 +20,7 @@ export const getDashboardStats = async () => {
 };
 
 export const getMyDashboardStats = async () => {
-    const response = await fetchWithAuth(`${API_BASE_URL}/dashboard/my-stats`, {
+    const response = await fetchWithAuth(`${API_URL}/dashboard/my-stats`, {
         method: "GET",
     });
 

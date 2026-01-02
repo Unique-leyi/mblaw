@@ -64,7 +64,7 @@ export const footerSocialLinks = [
 
 export const footerContactInfo = {
   phone: "+1-647-642-2117",
-  email: "law.musa@gmail.com",
+  email: "mb@mblawoffice.ca",
   address: "8975 McLaughlin Rd S #10, Brampton, ON, Canada",
 };
 

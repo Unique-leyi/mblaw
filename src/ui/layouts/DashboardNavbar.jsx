@@ -27,12 +27,15 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoIosSearch } from "react-icons/io";
 import { LogoutIcon } from "../icons";
 import { NavLink } from "react-router-dom";
-import { capitalizeFirstLetter } from "../../util/helper";
+import { capitalizeFirstLetter, redirectToLogin } from "../../util/helper";
 import { useUser } from "../../features/Auth/useUser";
+import LogoutConfirmationModal from "../LogoutConfirmationModal";
 
 
 function DashboardNavbar() {
+  
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isLogoutModalOpen, onOpen: onLogoutModalOpen, onClose: onLogoutModalClose } = useDisclosure();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
   const { user, isLoading } = useUser();
@@ -41,7 +44,7 @@ function DashboardNavbar() {
   const displayName = user?.firstName || user?.fullName || user?.name || "User";
 
 
-  const logout = () => {
+  const handleLogout = () => {
     redirectToLogin();
   }
 
@@ -117,7 +120,7 @@ function DashboardNavbar() {
                   <Box
                     position="relative"
                     cursor="pointer"
-                    // onClick={logout}
+                    onClick={onLogoutModalOpen}
                   >
                     <HStack
                       w="full"
@@ -158,8 +161,8 @@ function DashboardNavbar() {
                         color="alt.900"
                         rounded=""
                         _groupHover={{
-                          bg: "actions.error",
-                          color: "white",
+                          bg: "gray.100",
+                          color: "brand.100",
                           rounded: "6px",
                         }}
                       >
@@ -206,7 +209,7 @@ function DashboardNavbar() {
                   <Box
                     position="relative"
                     cursor="pointer"
-                    //   onClick={logout}
+                    onClick={onLogoutModalOpen}
                   >
                     <HStack
                       w="full"
@@ -247,8 +250,8 @@ function DashboardNavbar() {
                         color="alt.900"
                         rounded=""
                         _groupHover={{
-                          bg: "actions.error",
-                          color: "white",
+                          bg: "gray.100",
+                          color: "brand.100",
                           rounded: "6px",
                         }}
                       >
@@ -275,6 +278,13 @@ function DashboardNavbar() {
 
         {isOpen && <MobileNav isOpen={isOpen} onClose={onClose} />}
       </HStack>
+
+      {/* Logout Confirmation Modal */}
+      <LogoutConfirmationModal
+        isOpen={isLogoutModalOpen}
+        onClose={onLogoutModalClose}
+        onConfirm={handleLogout}
+      />
     </>
   );
 }

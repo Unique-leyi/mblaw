@@ -6,16 +6,17 @@ import {
   UnorderedList,
   VStack,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { SidebarData } from "../../data/SidebarData";
 import { redirectToLogin } from "../../util/helper";
 import RoleBasedDisplay from "../RoleBasedDisplay";
 import AppLogo from "./AppLogo";
+import LogoutConfirmationModal from "../LogoutConfirmationModal";
 
 function Sidebar() {
-  
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const location = useLocation();
   
   // Check for dashboard routes
@@ -44,7 +45,7 @@ function Sidebar() {
     }
   }
 
-  const logout = () => {
+  const handleLogout = () => {
     redirectToLogin();
   };
 
@@ -82,9 +83,8 @@ function Sidebar() {
                   to={item.link}
                   onClick={(e) => {
                     if (item?.title === "Logout") {
-                      console.log("Logging out...", item.title);
                       e.preventDefault(); 
-                      logout();
+                      onOpen();
                     }
                   }}
                 >
@@ -151,6 +151,13 @@ function Sidebar() {
           ))}
         </UnorderedList>
       </VStack>
+
+      {/* Logout Confirmation Modal */}
+      <LogoutConfirmationModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onConfirm={handleLogout}
+      />
     </VStack>
   );
 }

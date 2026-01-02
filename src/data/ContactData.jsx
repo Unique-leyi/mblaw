@@ -13,7 +13,7 @@ export const socialContacts = [
     {
         icon: SiGmail,
         title: "Email",
-        content: "info@mblaw.co.uk",
+        content: "mb@mblawoffice.ca",
         link: "",
     },
 

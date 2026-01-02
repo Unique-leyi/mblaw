@@ -1,6 +1,6 @@
 import { fetchWithAuth } from "./fetchWithAuth";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api";
+const API_URL = import.meta.env.VITE_BASE_URL;
 
 /**
  * Chat with AI assistant
@@ -10,7 +10,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000
  */
 export async function chatWithAI(message, conversationHistory = []) {
     try {
-        const response = await fetch(`${API_BASE_URL}/ai/chat`, {
+        const response = await fetch(`${API_URL}/ai/chat`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export async function chatWithAI(message, conversationHistory = []) {
  */
 export async function analyzeConsultation(consultationData) {
     try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/ai/analyze-consultation`, {
+        const response = await fetchWithAuth(`${API_URL}/ai/analyze-consultation`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export async function analyzeConsultation(consultationData) {
  */
 export async function generateBlogPost({ topic, practiceArea = null, type = 'outline' }) {
     try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/ai/generate-blog-post`, {
+        const response = await fetchWithAuth(`${API_URL}/ai/generate-blog-post`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -139,7 +139,7 @@ export async function generateBlogPost({ topic, practiceArea = null, type = 'out
  */
 export async function summarizeDocument({ documentText, documentType = 'general' }) {
     try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/ai/summarize-document`, {
+        const response = await fetchWithAuth(`${API_URL}/ai/summarize-document`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -186,7 +186,7 @@ export async function summarizeDocument({ documentText, documentType = 'general'
  */
 export async function suggestAppointmentTimes({ existingAppointments = [], preferredDate = null, preferredTime = null, practiceArea = null, duration = 60 }) {
     try {
-        const response = await fetchWithAuth(`${API_BASE_URL}/ai/suggest-appointment-times`, {
+        const response = await fetchWithAuth(`${API_URL}/ai/suggest-appointment-times`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

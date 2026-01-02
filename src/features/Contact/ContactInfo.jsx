@@ -105,7 +105,7 @@ function ContactInfo() {
                                   lineHeight="25px"
                                   letterSpacing="0%"
                                 >
-                                    law.musa@gmail.com
+                                    mb@mblawoffice.ca
                                 </Text>
 
                                 <Text
